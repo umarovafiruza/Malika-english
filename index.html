@@ -1,0 +1,4793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speakline</title>
+  <meta name="description" content="Minimalist English speaking-practice teleprompter.">
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, Source Serif 4 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+  <style id="speakline-stylesheet">
+    /* ==========================================================================
+       Speakline — Modern EdTech Mobile App Design System (Chegg / Duolingo Vibe)
+       Vibrant Orange: #FF6B00 | Soft Pastels: Lavender, Mint, Peach, Sky Blue
+       Typography: 'Plus Jakarta Sans' & 'Inter' | Pill Badges & 22px Rounded Cards
+       ========================================================================== */
+
+    :root {
+      --bg-page: #F6F7FA;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #F9FAFB;
+      --text-main: #191C1F;
+      --text-secondary: #64748B;
+      --text-muted: #94A3B8;
+      --text-passed: #CBD5E1;
+      --border-subtle: #E8EBF0;
+      --border-card: #ECEFF3;
+
+      /* Primary Brand Vibrant Orange */
+      --primary-orange: #FF6600;
+      --primary-orange-hover: #E65C00;
+      --primary-orange-light: #FFF0E6;
+      --primary-orange-gradient: linear-gradient(135deg, #FF7A1A 0%, #FF5200 100%);
+      --primary-orange-glow: 0 8px 24px rgba(255, 102, 0, 0.32);
+
+      /* Pastel Subject Themes (Matching Reference Image) */
+      --theme-lavender-bg: #F4F1FE;
+      --theme-lavender-border: #E6DEFD;
+      --theme-lavender-text: #6D28D9;
+      --theme-lavender-tag: #EDE7FE;
+
+      --theme-mint-bg: #ECFDF5;
+      --theme-mint-border: #D1FAE5;
+      --theme-mint-text: #059669;
+      --theme-mint-tag: #D1FAE5;
+
+      --theme-peach-bg: #FFF7ED;
+      --theme-peach-border: #FFEDD5;
+      --theme-peach-text: #D97706;
+      --theme-peach-tag: #FFEDD5;
+
+      --theme-blue-bg: #F0F9FF;
+      --theme-blue-border: #E0F2FE;
+      --theme-blue-text: #0284C7;
+      --theme-blue-tag: #E0F2FE;
+
+      --theme-rose-bg: #FFF1F2;
+      --theme-rose-border: #FFE4E6;
+      --theme-rose-text: #E11D48;
+      --theme-rose-tag: #FFE4E6;
+
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-serif: 'Source Serif 4', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --radius-xl: 28px;
+      --radius-pill: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(20, 24, 33, 0.04);
+      --shadow-md: 0 8px 24px rgba(20, 24, 33, 0.06);
+      --shadow-lg: 0 16px 36px rgba(20, 24, 33, 0.08);
+
+      --transition-speed: 240ms;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --transition-speed: 0ms;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100dvh;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Warm Gradients (Matching the soft mockups in the screenshot) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 237, 213, 0.65) 0%, rgba(243, 232, 255, 0.45) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--primary-orange);
+      outline-offset: 3px;
+    }
+
+    /* ==========================================================================
+       App Shell & Mobile Viewport Mockup
+       ========================================================================== */
+    .app-shell {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.06), 0 2px 10px rgba(0, 0, 0, 0.02);
+      border-left: 1px solid rgba(230, 235, 242, 0.6);
+      border-right: 1px solid rgba(230, 235, 242, 0.6);
+      z-index: 1;
+    }
+
+    @media (max-width: 480px) {
+      .app-shell {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+      }
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      min-height: 100dvh;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+      padding-bottom: 96px; /* Space for floating bottom nav */
+    }
+
+    .screen.is-visible {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen.is-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reading screen does not show bottom nav bar */
+    #screen-reading {
+      padding-bottom: 0;
+      background-color: #FAFAF8;
+    }
+
+    .container {
+      width: 100%;
+      padding: 20px 20px 32px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Common Button & Pill Styles */
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-main);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      line-height: 1.2;
+      min-height: 44px;
+      padding: 10px 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .btn:hover {
+      background-color: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border: none;
+      font-weight: 700;
+      box-shadow: var(--primary-orange-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #FF852E 0%, #FF5E14 100%);
+      box-shadow: 0 10px 28px rgba(255, 102, 0, 0.42);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .btn-subtle {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .btn-subtle:hover {
+      background-color: #F1F5F9;
+      color: var(--text-main);
+    }
+
+    .btn-sm {
+      min-height: 38px;
+      padding: 8px 16px;
+      font-size: 0.8125rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .pill-btn {
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: 0.8125rem;
+      min-height: 38px;
+    }
+
+    /* Icon Squircle Buttons (Matching Screen 1 & 2 top left menu icon) */
+    .icon-squircle-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .icon-squircle-btn:hover {
+      background-color: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       Home Header & Brand Accent
+       ========================================================================== */
+    .home-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 18px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-family: var(--font-main);
+      font-size: 1.375rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .brand-accent, .text-orange {
+      color: var(--primary-orange);
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-recordings-badge {
+      background: #FFF7ED;
+      color: #EA580C;
+      border: 1px solid #FFEDD5;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      min-height: 34px;
+    }
+
+    .btn-recordings-badge:hover {
+      background: #FFEDD5;
+      border-color: #FED7AA;
+    }
+
+    .rec-icon-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #EA580C;
+      display: inline-block;
+      animation: pulse-rec 1.3s infinite ease-in-out;
+    }
+
+    .lang-toggle {
+      font-size: 0.75rem;
+      font-weight: 700;
+      min-width: 44px;
+      min-height: 34px;
+      padding: 6px 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       Hero AI Buddy Card (Matching Left Screen)
+       ========================================================================== */
+    .hero-buddy-card {
+      background: linear-gradient(135deg, #FFF9F3 0%, #FFF3E6 100%);
+      border: 1px solid #FFE4CC;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 8px 20px rgba(255, 107, 0, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-buddy-card::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      bottom: -20px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255, 107, 0, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-buddy-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-buddy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1px solid #FED7AA;
+      border-radius: var(--radius-pill);
+      padding: 3px 10px;
+      margin-bottom: 8px;
+    }
+
+    .avatar-ring {
+      font-size: 0.9375rem;
+      line-height: 1;
+    }
+
+    .buddy-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #EA580C;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-buddy-title {
+      font-family: var(--font-main);
+      font-size: 1.1875rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-buddy-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .btn-orange-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--primary-orange-glow);
+      transition: all var(--transition-speed) ease;
+      flex-shrink: 0;
+    }
+
+    .btn-orange-circle:hover {
+      transform: scale(1.06);
+      box-shadow: 0 10px 28px rgba(255, 107, 0, 0.45);
+    }
+
+    .btn-orange-circle:active {
+      transform: scale(0.94);
+    }
+
+    /* ==========================================================================
+       Stats Chips Row (Matching Middle Screen: 12 Questions | 08 Solutions)
+       ========================================================================== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .stat-cyan {
+      background: #E0F2FE;
+      border: 1px solid #BAE6FD;
+      color: #0369A1;
+    }
+
+    .stat-amber {
+      background: #FFEDD5;
+      border: 1px solid #FED7AA;
+      color: #C2410C;
+    }
+
+    .stat-number {
+      font-family: var(--font-main);
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* ==========================================================================
+       Section Heading & Level Segmented Tabs (Middle Screen)
+       ========================================================================== */
+    .section-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-family: var(--font-main);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .section-subtext {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .level-nav {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .level-tabs {
+      display: flex;
+      align-items: center;
+      background: #ECEFF3;
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      gap: 4px;
+    }
+
+    .level-tab {
+      appearance: none;
+      -webkit-appearance: none;
+      flex: 1;
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 9px 12px;
+      font-family: var(--font-main);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .level-tab:hover {
+      color: var(--text-main);
+    }
+
+    .level-tab.is-active {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.35);
+    }
+
+    .level-tab .level-badge {
+      font-weight: 800;
+      font-size: 0.8125rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ==========================================================================
+       Topic Cards (Pastel Theme Cards matching Middle Screen)
+       ========================================================================== */
+    .topic-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .topic-item {
+      width: 100%;
+    }
+
+    .topic-card-body {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid var(--border-card);
+      background-color: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .topic-card-body:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Pastel Theme Variations */
+    .theme-lavender .topic-card-body {
+      background-color: var(--theme-lavender-bg);
+      border-color: var(--theme-lavender-border);
+    }
+    .theme-lavender .topic-level-badge {
+      background: var(--theme-lavender-tag);
+      color: var(--theme-lavender-text);
+      border-color: #DDD6FE;
+    }
+
+    .theme-mint .topic-card-body {
+      background-color: var(--theme-mint-bg);
+      border-color: var(--theme-mint-border);
+    }
+    .theme-mint .topic-level-badge {
+      background: var(--theme-mint-tag);
+      color: var(--theme-mint-text);
+      border-color: #A7F3D0;
+    }
+
+    .theme-peach .topic-card-body {
+      background-color: var(--theme-peach-bg);
+      border-color: var(--theme-peach-border);
+    }
+    .theme-peach .topic-level-badge {
+      background: var(--theme-peach-tag);
+      color: var(--theme-peach-text);
+      border-color: #FED7AA;
+    }
+
+    .theme-blue .topic-card-body {
+      background-color: var(--theme-blue-bg);
+      border-color: var(--theme-blue-border);
+    }
+    .theme-blue .topic-level-badge {
+      background: var(--theme-blue-tag);
+      color: var(--theme-blue-text);
+      border-color: #BAE6FD;
+    }
+
+    .theme-rose .topic-card-body {
+      background-color: var(--theme-rose-bg);
+      border-color: var(--theme-rose-border);
+    }
+    .theme-rose .topic-level-badge {
+      background: var(--theme-rose-tag);
+      color: var(--theme-rose-text);
+      border-color: #FECDD3;
+    }
+
+    .topic-card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .topic-level-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      letter-spacing: 0.03em;
+    }
+
+    .topic-rating-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #92400E;
+      background: rgba(254, 243, 199, 0.85);
+      border: 1px solid #FDE68A;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .topic-card-title {
+      font-family: var(--font-main);
+      font-size: 1.1875rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .topic-card-desc {
+      font-family: var(--font-main);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .topic-card-status {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #059669;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .topic-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .action-read-btn {
+      flex: 1;
+      min-width: 140px;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    .action-vocab-btn {
+      background: #FFFFFF;
+      border: 1px solid rgba(200, 208, 220, 0.7);
+      color: var(--text-main);
+      font-size: 0.875rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .action-vocab-btn:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+
+    .home-footer {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+    }
+
+    /* ==========================================================================
+       Floating Mobile Bottom Navigation Bar (Matching All 3 Screens)
+       ========================================================================== */
+    .bottom-nav-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(230, 235, 242, 0.9);
+      border-radius: 36px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.03);
+      z-index: 900;
+    }
+
+    .bottom-nav-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 14px;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .bottom-nav-btn:hover {
+      color: var(--primary-orange);
+    }
+
+    .bottom-nav-btn.is-active {
+      color: var(--primary-orange);
+    }
+
+    .bottom-nav-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .bottom-nav-center-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 107, 0, 0.45);
+      transform: translateY(-12px);
+      transition: all var(--transition-speed) ease;
+      flex-shrink: 0;
+    }
+
+    .bottom-nav-center-btn:hover {
+      transform: translateY(-14px) scale(1.06);
+      box-shadow: 0 12px 28px rgba(255, 107, 0, 0.55);
+    }
+
+    .bottom-nav-center-btn:active {
+      transform: translateY(-10px) scale(0.96);
+    }
+
+    /* ==========================================================================
+       Screen 2: Setup Screen (Speed & Options)
+       ========================================================================== */
+    .setup-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .setup-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .setup-topic-title {
+      font-family: var(--font-main);
+      font-size: 1.625rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .setup-topic-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .setup-speed-wrap {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .setup-speed-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .setup-section-label {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--text-main);
+    }
+
+    .setup-speed-val {
+      font-weight: 800;
+      font-size: 1.125rem;
+      color: var(--primary-orange);
+    }
+
+    .setup-slider-container {
+      margin-bottom: 18px;
+    }
+
+    .setup-range-slider {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: #E2E8F0;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .setup-range-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary-orange-gradient);
+      box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+      cursor: pointer;
+      transition: transform 120ms ease;
+    }
+
+    .setup-range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .setup-slider-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .speed-presets-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .speed-preset-btn {
+      min-height: 38px;
+      padding: 6px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: var(--radius-pill);
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .speed-preset-btn.is-selected {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(255, 107, 0, 0.35);
+    }
+
+    .setup-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .setup-start-btn {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1.0625rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .setup-hint {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       Screen 3: Intro & Countdown
+       ========================================================================== */
+    .intro-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .intro-prompt {
+      font-family: var(--font-main);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 24px;
+    }
+
+    .intro-countdown {
+      font-family: var(--font-main);
+      font-size: 5rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+      line-height: 1;
+      margin-bottom: 20px;
+      animation: count-pop 0.5s ease;
+    }
+
+    @keyframes count-pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .intro-note {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       Screen 4: Reading Mode (4-Word Distraction-Free Teleprompter)
+       ========================================================================== */
+    .reading-viewport {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FAFAF8;
+    }
+
+    .reading-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 20;
+      background: linear-gradient(180deg, rgba(250, 250, 248, 0.95) 0%, rgba(250, 250, 248, 0) 100%);
+    }
+
+    .reading-mic-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .reading-progress-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #E2E8F0;
+      z-index: 25;
+    }
+
+    .reading-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-orange-gradient);
+      transition: width 150ms linear;
+    }
+
+    .autopause-banner {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      right: 20px;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      color: #EA580C;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      text-align: center;
+      display: none;
+      z-index: 30;
+      box-shadow: var(--shadow-md);
+      animation: count-pop 0.3s ease;
+    }
+
+    .reading-scroll-track {
+      flex: 1;
+      width: 100%;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      position: relative;
+      padding: 0 24px;
+    }
+
+    .reading-scroll-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .teleprompter-text {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .reading-line {
+      font-family: var(--font-serif);
+      font-size: 1.5625rem;
+      line-height: 1.5;
+      color: var(--text-passed);
+      transition: color 180ms ease, transform 180ms ease;
+    }
+
+    .reading-line.is-active {
+      color: var(--text-main);
+      font-weight: 600;
+      transform: scale(1.04);
+    }
+
+    .reading-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 18px 20px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      z-index: 20;
+      background: linear-gradient(0deg, rgba(250, 250, 248, 0.95) 0%, rgba(250, 250, 248, 0) 100%);
+    }
+
+    .reading-pause-btn {
+      min-width: 140px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ==========================================================================
+       Screen 5: Result Screen (Matching Right Screen Profile & Cards)
+       ========================================================================== */
+    .result-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 10px;
+    }
+
+    .result-card-celebrate {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FFFBEB 100%);
+      border: 1px solid #FED7AA;
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-badge {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      background: #FFFFFF;
+      color: #EA580C;
+      border: 1px solid #FFEDD5;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .result-ratio-number {
+      font-family: var(--font-main);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .result-card-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .result-stat-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-stat-val {
+      font-family: var(--font-main);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .result-stat-lbl {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .result-recording-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .recording-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .recording-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .audio-player-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .player-play-btn {
+      width: 40px;
+      height: 40px;
+      min-height: 40px;
+      border-radius: 50%;
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+      flex-shrink: 0;
+    }
+
+    .player-progress-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .player-progress-slider {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: var(--radius-pill);
+      background: #E2E8F0;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .player-progress-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary-orange);
+      cursor: pointer;
+    }
+
+    .player-time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .saved-recordings-section {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+    }
+
+    .saved-recordings-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .saved-recordings-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .saved-rec-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      gap: 10px;
+    }
+
+    .saved-rec-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .saved-rec-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-rec-meta {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+
+    .saved-rec-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .saved-rec-btn {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      min-height: 32px;
+      border-radius: var(--radius-pill);
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ==========================================================================
+       Screen 6: Vocabulary Screen (Study & 2-Cycle Voice Player)
+       ========================================================================== */
+    .vocab-level-badge {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      background: #FFF7ED;
+      color: #EA580C;
+      border: 1px solid #FFEDD5;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .vocab-header {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .vocab-player-card {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF7 100%);
+      border: 1px solid #FED7AA;
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(255, 107, 0, 0.08);
+    }
+
+    .vocab-player-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .vocab-play-all-btn {
+      flex: 1;
+      min-width: 160px;
+      border-radius: var(--radius-pill);
+    }
+
+    .vocab-nav-arrows {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      min-height: 40px;
+      min-width: 40px;
+      padding: 8px 12px;
+      border-radius: 50%;
+      font-size: 1rem;
+    }
+
+    .vocab-word-counter {
+      font-family: var(--font-main);
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      min-width: 68px;
+      text-align: center;
+    }
+
+    .vocab-player-status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      border-top: 1px solid #FFEDD5;
+      padding-top: 10px;
+    }
+
+    .vocab-status-pulse {
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary-orange);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse-rec 1.2s infinite ease-in-out;
+    }
+
+    .vocab-list-wrapper {
+      width: 100%;
+    }
+
+    .vocab-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vocab-word-item {
+      width: 100%;
+    }
+
+    .vocab-word-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background-color: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) ease;
+      cursor: pointer;
+    }
+
+    .vocab-word-card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      border-color: #CBD5E1;
+    }
+
+    .vocab-word-card.is-active {
+      border-color: var(--primary-orange);
+    }
+
+    .vocab-word-card.is-speaking {
+      border-color: var(--primary-orange);
+      background: linear-gradient(135deg, #FFFDF9 0%, #FFF5EC 100%);
+      box-shadow: 0 0 0 2px var(--primary-orange), 0 8px 24px rgba(255, 107, 0, 0.15);
+      transform: scale(1.02);
+    }
+
+    .vocab-word-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .vocab-word-index {
+      font-family: var(--font-main);
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #94A3B8;
+      background: #F1F5F9;
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .vocab-word-card.is-speaking .vocab-word-index {
+      background: #FFEDD5;
+      color: #EA580C;
+    }
+
+    .vocab-word-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .vocab-word-en {
+      font-family: var(--font-main);
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+
+    .vocab-word-uz {
+      font-family: var(--font-main);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    .vocab-word-action {
+      flex-shrink: 0;
+    }
+
+    .btn-word-speak {
+      min-height: 36px;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .vocab-word-card.is-speaking .btn-word-speak {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(255, 107, 0, 0.35);
+    }
+
+    /* ==========================================================================
+       Modals (Files & Saved Recordings)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity var(--transition-speed) ease;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-container {
+      background: #FFFFFF;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 500px;
+      max-height: 85dvh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: count-pop 0.25s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-family: var(--font-main);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .file-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .file-tab-btn {
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      min-height: 32px;
+      border-radius: var(--radius-pill);
+      background: #F1F5F9;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+    }
+
+    .file-tab-btn.is-selected {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(255, 107, 0, 0.3);
+    }
+
+    .code-viewer-box {
+      background: #0F172A;
+      color: #F8FAFC;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      max-height: 320px;
+      overflow: auto;
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+
+    .modal-footer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ======================================================================
+         SCREEN 1: HOME
+         ====================================================================== -->
+    <main id="screen-home" class="screen is-visible is-active" aria-label="Topics">
+      <div class="container">
+        <!-- Top App Bar (Matching Screen 1 & 2) -->
+        <header class="home-header">
+          <div class="header-left">
+            <button type="button" class="icon-squircle-btn" id="btn-home-menu" aria-label="Project info &amp; files" title="Project info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="7" height="7" rx="2.5" />
+                <rect x="14" y="3" width="7" height="7" rx="2.5" />
+                <rect x="3" y="14" width="7" height="7" rx="2.5" />
+                <rect x="14" y="14" width="7" height="7" rx="2.5" />
+              </svg>
+            </button>
+            <div class="brand-wrap">
+              <h1 class="brand-title" id="ui-app-title">Speak<span class="brand-accent">line</span></h1>
+            </div>
+          </div>
+          <div class="header-meta">
+            <button type="button" class="btn pill-btn btn-recordings-badge" id="btn-open-recordings">
+              <span class="rec-icon-dot"></span>
+              <span id="btn-rec-count-label">Recordings (0/3)</span>
+            </button>
+            <button type="button" class="btn pill-btn lang-toggle" id="btn-lang-toggle" aria-label="Switch interface language">EN</button>
+          </div>
+        </header>
+
+        <!-- Hero AI Buddy Banner (Matching Left Screen) -->
+        <div class="hero-buddy-card">
+          <div class="hero-buddy-content">
+            <div class="hero-buddy-badge">
+              <span class="avatar-ring">🎓</span>
+              <span class="buddy-label">Your AI Buddy</span>
+            </div>
+            <h2 class="hero-buddy-title">Start with <span class="text-orange">Speakline</span></h2>
+            <p class="hero-buddy-desc">Speak fast and clear with teleprompter &amp; voice feedback.</p>
+          </div>
+          <div class="hero-buddy-action">
+            <button type="button" class="btn-orange-circle" id="btn-hero-quick-start" aria-label="Quick Start Practice" title="Start Practice">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Stats Chips (Matching Middle Screen: 12 Questions | 08 Solutions) -->
+        <div class="stats-row">
+          <div class="stat-card stat-cyan">
+            <span class="stat-number" id="ui-today-count-num">0</span>
+            <span class="stat-label" id="ui-today-count">Texts Read Today</span>
+          </div>
+          <div class="stat-card stat-amber" id="stat-card-recordings" style="cursor: pointer;" title="Open Saved Voice Recordings">
+            <span class="stat-number" id="ui-saved-count-num">0</span>
+            <span class="stat-label">Saved Voices (Max 3)</span>
+          </div>
+        </div>
+
+        <!-- Section Heading & Level Segmented Tabs (Middle Screen) -->
+        <div class="section-header-row">
+          <h3 class="section-heading">My <span class="text-orange">Library</span></h3>
+          <span class="section-subtext" id="ui-topic-counter">10 Topics</span>
+        </div>
+
+        <!-- CEFR Level Selector Tabs (A1, A2, B1) -->
+        <nav class="level-nav" aria-label="CEFR Proficiency Level">
+          <div class="level-tabs" role="tablist" id="level-tabs-container">
+            <button type="button" class="level-tab is-active" role="tab" aria-selected="true" data-level="a1" id="tab-level-a1">
+              <span class="level-badge">A1</span>
+              <span class="level-name" id="ui-tab-name-a1">Beginner</span>
+            </button>
+            <button type="button" class="level-tab" role="tab" aria-selected="false" data-level="a2" id="tab-level-a2">
+              <span class="level-badge">A2</span>
+              <span class="level-name" id="ui-tab-name-a2">Elementary</span>
+            </button>
+            <button type="button" class="level-tab" role="tab" aria-selected="false" data-level="b1" id="tab-level-b1">
+              <span class="level-badge">B1</span>
+              <span class="level-name" id="ui-tab-name-b1">Intermediate</span>
+            </button>
+          </div>
+        </nav>
+
+        <ul class="topic-list" id="topic-list" role="list">
+          <!-- Populated dynamically with pastel theme cards from js/topics.js -->
+        </ul>
+
+        <footer class="home-footer">
+          <span id="ui-footer-note">Select a topic to practise reading aloud at a steady pace.</span>
+          <button type="button" class="btn btn-subtle" id="btn-open-files">Project Files &amp; README</button>
+        </footer>
+      </div>
+
+      <!-- Floating Mobile Bottom Navigation Bar (Matching All 3 Screens) -->
+      <nav class="bottom-nav-bar" id="app-bottom-nav" aria-label="Bottom Navigation">
+        <button type="button" class="bottom-nav-btn is-active" id="nav-btn-home" aria-label="Home">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+          <span class="bottom-nav-label">Home</span>
+        </button>
+        <button type="button" class="bottom-nav-btn" id="nav-btn-topics" aria-label="Explore Topics">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span class="bottom-nav-label">Explore</span>
+        </button>
+        <button type="button" class="bottom-nav-center-btn" id="nav-btn-action" aria-label="Quick Practice" title="Start Reading">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l2.4 7.2h7.6l-6.2 4.5 2.4 7.3-6.2-4.5-6.2 4.5 2.4-7.3-6.2-4.5h7.6z"/>
+          </svg>
+        </button>
+        <button type="button" class="bottom-nav-btn" id="nav-btn-vocab" aria-label="Vocabulary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span class="bottom-nav-label">Vocab</span>
+        </button>
+        <button type="button" class="bottom-nav-btn" id="nav-btn-profile" aria-label="Recordings">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="bottom-nav-label">Voice</span>
+        </button>
+      </nav>
+    </main>
+
+    <!-- ======================================================================
+         SCREEN 2: SETUP
+         ====================================================================== -->
+    <section id="screen-setup" class="screen" aria-labelledby="setup-topic-title">
+      <div class="container">
+        <nav class="setup-nav">
+          <button type="button" class="btn" id="btn-setup-back">Back</button>
+        </nav>
+
+        <div class="setup-wrapper">
+          <div>
+            <h2 class="setup-topic-title" id="setup-topic-title">Daily Routine</h2>
+            <p class="setup-topic-desc" id="setup-topic-desc"></p>
+          </div>
+
+          <div class="setup-speed-wrap">
+            <div class="setup-speed-header">
+              <span class="setup-section-label" id="ui-speed-label">Reading speed</span>
+              <span class="setup-speed-val" id="ui-setup-speed-val">140 WPM</span>
+            </div>
+            <div class="setup-slider-container">
+              <input type="range" id="slider-setup-speed" class="setup-range-slider" min="60" max="250" step="5" value="140" aria-label="Reading speed">
+              <div class="setup-slider-ticks">
+                <span id="ui-speed-tick-min">60 (Slow)</span>
+                <span>140</span>
+                <span id="ui-speed-tick-max">250 (Max)</span>
+              </div>
+            </div>
+            <div class="speed-presets-grid" role="group" aria-labelledby="ui-speed-label">
+              <button type="button" class="btn speed-preset-btn" data-wpm="80" id="btn-speed-slow">80 (Slow)</button>
+              <button type="button" class="btn speed-preset-btn is-selected" data-wpm="140" id="btn-speed-medium" aria-pressed="true">140 (Medium)</button>
+              <button type="button" class="btn speed-preset-btn" data-wpm="190" id="btn-speed-fast">190 (Fast)</button>
+              <button type="button" class="btn speed-preset-btn" data-wpm="250" id="btn-speed-max">250 (Max)</button>
+            </div>
+          </div>
+
+          <div class="setup-actions">
+            <button type="button" class="btn btn-primary setup-start-btn" id="btn-start-reading">Start</button>
+            <p class="setup-hint" id="ui-setup-hint">
+              Microphone access is used locally to detect when you are speaking. Audio is never recorded or uploaded.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 3: INTRO & COUNTDOWN
+         ====================================================================== -->
+    <section id="screen-intro" class="screen" aria-live="polite">
+      <div class="intro-wrapper">
+        <p class="intro-prompt" id="intro-prompt-text">Speak fast and clear</p>
+        <div class="intro-countdown" id="intro-countdown-num">3</div>
+        <p class="intro-calibration-note" id="intro-calibration-note">Calibrating microphone...</p>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 4: READING MODE (Distraction-Free Teleprompter)
+         ====================================================================== -->
+    <section id="screen-reading" class="screen" aria-label="Reading teleprompter">
+      <!-- Top 2px Progress Line -->
+      <div class="reading-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="reading-progressbar">
+        <div class="reading-progress-bar" id="reading-progress-fill"></div>
+      </div>
+
+      <!-- Subtle Fixed Reading Line at 40% Viewport Height -->
+      <div class="reading-guide-line" aria-hidden="true"></div>
+      <div class="reading-guide-markers" aria-hidden="true">
+        <span class="reading-guide-tick"></span>
+        <span class="reading-guide-tick"></span>
+      </div>
+
+      <!-- Auto-Pause Notification (aria-live) -->
+      <div class="autopause-banner" id="autopause-banner" role="status" aria-live="assertive">
+        Waiting for you. Start speaking to continue.
+      </div>
+
+      <!-- Scrolling Text Viewport -->
+      <div class="reading-viewport" id="reading-viewport">
+        <div class="reading-scroll-track" id="reading-scroll-track">
+          <div class="reading-spacer-top" id="reading-spacer-top"></div>
+          <article class="reading-text-body" id="reading-text-container"></article>
+          <div class="reading-spacer-bottom" id="reading-spacer-bottom"></div>
+        </div>
+      </div>
+
+      <!-- Minimal Bottom Controls Bar -->
+      <div class="reading-controls-bar">
+        <div class="reading-controls-inner">
+          <div class="reading-controls-speed-wrap">
+            <div class="speed-control-wrap">
+              <label for="slider-reading-speed" class="speed-label" id="ui-reading-speed-label">
+                Speed: <span class="speed-val-display" id="reading-speed-val">140</span>
+              </label>
+              <input type="range" id="slider-reading-speed" class="speed-slider" min="60" max="250" step="5" value="140" aria-label="Reading speed" title="Reading speed (60 - 250 WPM)">
+            </div>
+          </div>
+          <div class="reading-controls-actions-wrap">
+            <button type="button" class="btn control-btn" id="btn-reading-pause">Pause</button>
+            <span class="rec-indicator" id="reading-rec-indicator">● REC</span>
+            <span class="mic-state-label" id="reading-mic-indicator" aria-live="off"></span>
+            <button type="button" class="btn control-btn" id="btn-reading-exit">Exit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 5: RESULT
+         ====================================================================== -->
+    <section id="screen-result" class="screen" aria-labelledby="result-topic-title">
+      <div class="container">
+        <div class="result-wrapper">
+          <div>
+            <p class="result-status-label" id="result-status-badge">Completed</p>
+            <h2 class="result-topic-title" id="result-topic-title">Daily Routine</h2>
+          </div>
+
+          <p class="result-message" id="result-encouragement"></p>
+
+          <div class="result-metrics">
+            <div class="metric-item">
+              <span class="metric-label" id="ui-metric-ratio-label">Speaking ratio</span>
+              <span class="metric-value" id="result-ratio-value">84%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label" id="ui-metric-time-label">Time taken</span>
+              <span class="metric-value" id="result-time-value">1m 12s</span>
+            </div>
+          </div>
+
+          <p class="result-mic-note" id="result-mic-off-note" style="display: none;">
+            Microphone was off, so no score was calculated.
+          </p>
+
+          <!-- Voice Recording Box (Max 3 stored in localStorage) -->
+          <div class="result-recording-box" id="result-recording-box">
+            <div class="recording-box-header">
+              <span class="setup-section-label" id="ui-rec-section-title">Voice Recording</span>
+              <span class="recording-badge" id="ui-rec-saved-badge">Saved</span>
+            </div>
+
+            <!-- Current Session Audio Player -->
+            <div class="audio-player-card" id="current-audio-player">
+              <button type="button" class="btn player-play-btn" id="btn-play-current-rec" aria-label="Play recording">
+                Play
+              </button>
+              <div class="player-progress-wrap">
+                <input type="range" class="player-progress-slider" id="slider-rec-progress" min="0" max="100" value="0" step="0.5" aria-label="Audio progress">
+                <div class="player-time-row">
+                  <span id="player-time-current">0:00</span>
+                  <span id="player-time-duration">0:00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Previous Recordings List (Max 3) -->
+            <div class="saved-recordings-section">
+              <span class="saved-recordings-title" id="ui-saved-rec-title">Recent recordings (Max 3)</span>
+              <ul class="saved-recordings-list" id="saved-recordings-list"></ul>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button type="button" class="btn btn-primary" id="btn-result-again">Read again</button>
+            <button type="button" class="btn" id="btn-result-topics">Choose another topic</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 6: VOCABULARY & 2-CYCLE VOICE SPEAKER
+         ====================================================================== -->
+    <section id="screen-vocabulary" class="screen" aria-labelledby="vocab-topic-title">
+      <div class="container">
+        <nav class="setup-nav">
+          <button type="button" class="btn" id="btn-vocab-back">Back</button>
+          <span class="vocab-level-badge" id="vocab-level-badge">A1 • Beginner</span>
+        </nav>
+
+        <header class="vocab-header">
+          <h2 class="setup-topic-title" id="vocab-topic-title">Daily Routine</h2>
+          <p class="setup-topic-desc" id="vocab-topic-desc">10 difficult words with English and Uzbek voice pronunciation (repeated twice).</p>
+        </header>
+
+        <!-- Vocabulary Voice Player Controller -->
+        <div class="vocab-player-card">
+          <div class="vocab-player-main-row">
+            <button type="button" class="btn btn-primary vocab-play-all-btn" id="btn-vocab-play-all">
+              Play all words
+            </button>
+            <div class="vocab-nav-arrows">
+              <button type="button" class="btn btn-icon" id="btn-vocab-prev" aria-label="Previous word" title="Previous word">
+                &#8592;
+              </button>
+              <span class="vocab-word-counter" id="vocab-word-counter">1 / 10</span>
+              <button type="button" class="btn btn-icon" id="btn-vocab-next" aria-label="Next word" title="Next word">
+                &#8594;
+              </button>
+            </div>
+          </div>
+          <div class="vocab-player-status-row">
+            <span class="vocab-status-pulse" id="vocab-status-pulse" style="display: none;"></span>
+            <span class="vocab-status-text" id="vocab-status-text">Click any word or press Play all</span>
+          </div>
+        </div>
+
+        <!-- 10 Curated Difficult Words List -->
+        <div class="vocab-list-wrapper">
+          <ul class="vocab-list" id="vocab-words-list" role="list">
+            <!-- Populated dynamically -->
+          </ul>
+        </div>
+
+        <div class="result-actions" style="margin-top: 32px;">
+          <button type="button" class="btn btn-primary" id="btn-vocab-read-text">Read topic text</button>
+          <button type="button" class="btn" id="btn-vocab-topics">Choose another topic</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PROJECT FILES & README INSPECTOR MODAL (For Static Repo Export)
+         ====================================================================== -->
+    <aside id="modal-files" class="modal-backdrop" aria-labelledby="modal-files-title" aria-hidden="true">
+      <div class="modal-container">
+        <header class="modal-header">
+          <h2 class="modal-title" id="modal-files-title">Project Structure &amp; Source Files</h2>
+          <button type="button" class="btn" id="btn-close-files">Close</button>
+        </header>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);">
+          Speakline is architected into clean, standalone modules matching the exact directory layout. Select any file below to inspect or copy its source code.
+        </p>
+        <div class="file-tabs" id="file-tabs-container" role="tablist"></div>
+        <div class="code-viewer-box">
+          <pre class="code-viewer-pre" id="code-viewer-content"></pre>
+        </div>
+        <div class="modal-footer-bar">
+          <span id="copy-feedback-text" style="font-size: 0.8125rem; color: var(--text-secondary);"></span>
+          <button type="button" class="btn" id="btn-copy-file">Copy file contents</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         RECORDINGS MODAL (Max 3 saved in LocalStorage)
+         ====================================================================== -->
+    <aside id="modal-recordings" class="modal-backdrop" aria-labelledby="modal-rec-title" aria-hidden="true">
+      <div class="modal-container">
+        <header class="modal-header">
+          <h2 class="modal-title" id="modal-rec-title">Saved Voice Recordings</h2>
+          <button type="button" class="btn" id="btn-close-recordings">Close</button>
+        </header>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);" id="modal-rec-subtitle">
+          Your last 3 speaking practices saved locally on this device.
+        </p>
+        <div style="margin-top: 14px;">
+          <ul class="saved-recordings-list" id="modal-recordings-list"></ul>
+        </div>
+      </div>
+    </aside>
+
+
+  </div>
+
+  <!-- ========================================================================
+       MODULE 1: js/strings.js
+       All interface strings in one dictionary with English default and Uzbek stub
+       ======================================================================== -->
+  <script id="script-strings">
+    /**
+     * js/strings.js
+     * Centralised UI strings dictionary.
+     * Supports instant switching between English ('en') and Uzbek ('uz').
+     */
+    const STRINGS = {
+      en: {
+        appTitle: "Speakline",
+        todayRead: (count) => `Today: ${count} ${count === 1 ? "text" : "texts"} read`,
+        footerNote: "Select a topic to practise reading aloud at a steady pace.",
+        projectFilesBtn: "Project Files & README",
+        back: "Back",
+        readingSpeedLabel: "Reading speed",
+        speedSlow: "Slow",
+        speedMedium: "Medium",
+        speedFast: "Fast",
+        speedMax: "Max",
+        speedTitle: "Speed",
+        startBtn: "Start",
+        setupHint: "Microphone access is used locally to detect when you are speaking. Audio is never recorded or uploaded.",
+        introVoiceLine: "Speak fast and clear",
+        calibratingMic: "Listening to ambient room level...",
+        micUnavailableNote: "Microphone unavailable — running in teleprompter mode",
+        autoPauseMessage: "Waiting for you. Start speaking to continue.",
+        pause: "Pause",
+        resume: "Resume",
+        speedButton: (label) => `Speed: ${label}`,
+        exit: "Exit",
+        micActiveListening: "Mic: Listening",
+        micActiveSpeaking: "Mic: Speaking",
+        micOffLabel: "Mic: Off",
+        completedBadge: "Completed",
+        tryAgainBadge: "Try again",
+        completedCardStatus: (bestRatio) => `Completed, ${bestRatio}%`,
+        encouragementSuccess: "Well done. You kept a steady, clear speaking pace throughout the passage.",
+        encouragementTryAgain: "Good effort. Try reading aloud a little more continuously to reach 60% speaking time.",
+        encouragementMicOff: "You finished reading the passage from start to finish.",
+        speakingRatioLabel: "Speaking ratio",
+        timeTakenLabel: "Time taken",
+        micOffResultNote: "Microphone was off, so no score was calculated.",
+        readAgainBtn: "Read again",
+        tryAgainBtn: "Try again",
+        chooseAnotherBtn: "Choose another topic",
+        voiceRecordingTitle: "Voice Recording",
+        recentRecordingsTitle: "Recent recordings (Max 3)",
+        noRecordings: "No voice recordings yet.",
+        play: "Play",
+        delete: "Delete",
+        recordingsBtn: (count) => `Recordings (${count}/3)`,
+        savedBadge: "Saved",
+        recActiveNote: "REC",
+        modalRecTitle: "Saved Voice Recordings",
+        modalRecSubtitle: "Your last 3 speaking practices saved locally on this device.",
+        levelA1: "A1 • Beginner",
+        levelA2: "A2 • Elementary",
+        levelB1: "B1 • Intermediate",
+        levelA1Name: "Beginner",
+        levelA2Name: "Elementary",
+        levelB1Name: "Intermediate",
+        readBtn: "Read text",
+        vocabBtn: "Vocabulary (10 words)",
+        vocabTopicSubtitle: "10 difficult words with English and Uzbek voice pronunciation (repeated twice).",
+        playAllWords: "Play all words",
+        pauseWords: "Pause",
+        prevWord: "Previous",
+        nextWord: "Next",
+        wordCounter: (curr, total) => `${curr} / ${total}`,
+        speakingStatus: (en, uz, cycle, lang) => `Cycle ${cycle}/2 • ${lang.toUpperCase()}: ${en} — ${uz}`,
+        readyStatus: "Click any word or press Play all",
+        completedStatus: "Finished all 10 words",
+        listenWordBtn: "Listen",
+        readTopicBtn: "Read topic text"
+      },
+      uz: {
+        appTitle: "Speakline",
+        todayRead: (count) => `Bugun: ${count} ta matn o'qildi`,
+        footerNote: "Bir maromda ovoz chiqarib o'qishni mashq qilish uchun mavzuni tanlang.",
+        projectFilesBtn: "Loyiha fayllari va README",
+        back: "Orqaga",
+        readingSpeedLabel: "O'qish tezligi",
+        speedSlow: "Sekin",
+        speedMedium: "O'rtacha",
+        speedFast: "Tez",
+        speedMax: "Maks",
+        speedTitle: "Tezlik",
+        startBtn: "Boshlash",
+        setupHint: "Mikrofon faqat gapirayotganingizni aniqlash uchun qurilmangizning o'zida ishlatiladi. Ovoz yozib olinmaydi.",
+        introVoiceLine: "Speak fast and clear",
+        calibratingMic: "Xona shovqin darajasi aniqlanmoqda...",
+        micUnavailableNote: "Mikrofon yoqilmadi — oddiy teleprompter rejimi",
+        autoPauseMessage: "Sizni kutyapmiz. Davom etish uchun gapirishni boshlang.",
+        pause: "To'xtatish",
+        resume: "Davom etish",
+        speedButton: (label) => `Tezlik: ${label}`,
+        exit: "Chiqish",
+        micActiveListening: "Mikrofon: Tinglamoqda",
+        micActiveSpeaking: "Mikrofon: Gapirilmoqda",
+        micOffLabel: "Mikrofon: O'chiq",
+        completedBadge: "Bajarildi",
+        tryAgainBadge: "Qayta urinib ko'ring",
+        completedCardStatus: (bestRatio) => `Bajarildi, ${bestRatio}%`,
+        encouragementSuccess: "Barakalla. Matn davomida ravon va barqaror nutq sur'atini saqlab qoldingiz.",
+        encouragementTryAgain: "Yaxshi harakat. Ko'rsatkich 60% dan oshishi uchun to'xtovsizroq ovoz chiqarib o'qib ko'ring.",
+        encouragementMicOff: "Matnni boshidan oxirigacha o'qib chiqdingiz.",
+        speakingRatioLabel: "Gapirish ulushi",
+        timeTakenLabel: "Ketgan vaqt",
+        micOffResultNote: "Mikrofon o'chiq bo'lgani sababli natija hisoblanmadi.",
+        readAgainBtn: "Qayta o'qish",
+        tryAgainBtn: "Qayta urinib ko'rish",
+        chooseAnotherBtn: "Boshqa mavzu tanlash",
+        voiceRecordingTitle: "Ovoz yozuvi",
+        recentRecordingsTitle: "Saqlangan yozuvlar (Maks 3)",
+        noRecordings: "Hozircha ovoz yozuvlari mavjud emas.",
+        play: "Eshitish",
+        delete: "O'chirish",
+        recordingsBtn: (count) => `Yozuvlar (${count}/3)`,
+        savedBadge: "Saqlandi",
+        recActiveNote: "YOZILMOQDA",
+        modalRecTitle: "Saqlangan ovoz yozuvlari",
+        modalRecSubtitle: "Ushbu qurilmada saqlangan oxirgi 3 ta nutq amaliyoti.",
+        levelA1: "A1 • Boshlang'ich",
+        levelA2: "A2 • O'rtadan past",
+        levelB1: "B1 • O'rta",
+        levelA1Name: "Boshlang'ich",
+        levelA2Name: "O'rtadan past",
+        levelB1Name: "O'rta",
+        readBtn: "Matnni o'qish",
+        vocabBtn: "Lug'at (10 ta so'z)",
+        vocabTopicSubtitle: "10 ta qiyin so'z: inglizcha va o'zbekcha talaffuz (2 martadan takrorlanadi).",
+        playAllWords: "Barchasini tinglash",
+        pauseWords: "To'xtatish",
+        prevWord: "Oldingi",
+        nextWord: "Keyingi",
+        wordCounter: (curr, total) => `${curr} / ${total}`,
+        speakingStatus: (en, uz, cycle, lang) => `${cycle}-sikl / 2 • ${lang.toUpperCase()}: ${en} — ${uz}`,
+        readyStatus: "Istalgan so'zni bosing yoki Barchasini tinglang",
+        completedStatus: "Barcha 10 ta so'z aytib bo'lindi",
+        listenWordBtn: "Tinglash",
+        readTopicBtn: "Mavzu matnini o'qish",
+        modalRecSubtitle: "Ushbu qurilmada saqlangan oxirgi 3 ta nutq amaliyoti."
+      }
+    };
+  </script>
+
+  <!-- ========================================================================
+       MODULE 2: js/topics.js
+       10 original B1 English topics (120-160 words each, natural spoken English)
+       ======================================================================== -->
+  <script id="script-topics">
+    /**
+     * js/topics.js
+     * Plain array of 10 English speaking topics across A1, A2, and B1 levels.
+     * Each topic includes reading text (120-160 words) and 10 curated vocabulary words with Uzbek translations.
+     */
+    const TOPICS = [
+      // ==========================================
+      // A1: BEGINNER (Boshlang'ich)
+      // ==========================================
+      {
+        id: "daily-routine",
+        level: "a1",
+        title: "Daily Routine",
+        description: "How small morning and evening habits shape a calm, productive day.",
+        text: "My day usually begins around seven in the morning. Before I look at my phone, I open the window to let some fresh air into the room and drink a glass of warm water. A quiet morning helps me think clearly about the hours ahead. After a simple breakfast of eggs and toast, I check my schedule and write down the three most important tasks for the day. During the afternoon, I try to take short breaks away from my desk so my eyes can rest. Even a ten-minute walk outside makes a big difference to my energy. In the evening, I cook dinner, tidy the kitchen, and spend half an hour reading a book. Going to bed at the same time every night keeps my routine steady and restful.",
+        vocabulary: [
+          { en: "routine", uz: "kun tartibi" },
+          { en: "morning", uz: "ertalab" },
+          { en: "fresh", uz: "toza, musaffo" },
+          { en: "water", uz: "suv" },
+          { en: "breakfast", uz: "nonushta" },
+          { en: "schedule", uz: "jadval" },
+          { en: "outside", uz: "tashqarida" },
+          { en: "dinner", uz: "kechki ovqat" },
+          { en: "kitchen", uz: "oshxona" },
+          { en: "sleep", uz: "uyqu" }
+        ]
+      },
+      {
+        id: "family-and-friends",
+        level: "a1",
+        title: "Family and Friends",
+        description: "How honest conversations and small gestures keep relationships strong.",
+        text: "Good relationships with family and close friends give our lives warmth and stability. As we grow older and schedules become busier, staying connected requires conscious effort from both sides. You do not always need long meetings or big celebrations to show people that they matter to you. A short phone call on a Sunday afternoon or a thoughtful message during a difficult week can mean a great deal. When spending time together, putting away phones and truly listening makes every conversation richer. Good friends celebrate your successes openly and offer honest advice when you need guidance. Having even two or three trusted people with whom you can speak freely makes life's challenges much easier to carry.",
+        vocabulary: [
+          { en: "family", uz: "oila" },
+          { en: "parents", uz: "ota-ona" },
+          { en: "together", uz: "birga" },
+          { en: "friendship", uz: "do'stlik" },
+          { en: "weekend", uz: "dam olish kunlari" },
+          { en: "helpful", uz: "yordam beradigan" },
+          { en: "dinner", uz: "kechki ovqat" },
+          { en: "listen", uz: "tinglamoq" },
+          { en: "share", uz: "bo'lishmoq" },
+          { en: "warm", uz: "samimiy, iliq" }
+        ]
+      },
+      {
+        id: "food-and-cooking",
+        level: "a1",
+        title: "Food and Cooking",
+        description: "The simple pleasure of preparing fresh meals at home.",
+        text: "Cooking at home has become one of my favourite parts of the week. Years ago, I used to buy ready-made meals because I thought cooking took too much time. Everything changed when I learned a few basic recipes using fresh vegetables, rice, and simple spices. Now I enjoy visiting the local market on Saturday mornings to choose ripe tomatoes, herbs, and fresh bread. Preparing food from scratch allows me to control what goes onto my plate, and it tastes much better than takeaway food. I often play quiet music in the kitchen while chopping ingredients and stirring a warm pot of soup. Sharing a homemade meal with family or friends around the table always brings good conversation and a strong sense of comfort.",
+        vocabulary: [
+          { en: "vegetables", uz: "sabzavotlar" },
+          { en: "recipe", uz: "retsept" },
+          { en: "market", uz: "bozor" },
+          { en: "scratch", uz: "boshidan, noldan" },
+          { en: "spices", uz: "ziravorlar" },
+          { en: "taste", uz: "ta'm" },
+          { en: "chop", uz: "maydalamoq" },
+          { en: "stir", uz: "aralashtirmoq" },
+          { en: "soup", uz: "sho'rva" },
+          { en: "comfort", uz: "qulaylik, huzur" }
+        ]
+      },
+      {
+        id: "hobbies",
+        level: "a1",
+        title: "Hobbies",
+        description: "Making time for creative activities that have no pressure.",
+        text: "Having a hobby outside of work and daily responsibilities gives the mind a welcome place to rest. In a world where we often measure everything by speed and results, doing something purely for enjoyment feels refreshing. Whether it is gardening, photography, drawing, or playing chess, a good hobby absorbs your full attention so you forget about daily worries for a while. Last year I started tending a few plants on my balcony. Watching new leaves grow week by week taught me to slow down and notice small details. You do not need to be an expert at your hobby for it to be valuable. The real reward is the quiet satisfaction you feel while creating or practising something with your own hands.",
+        vocabulary: [
+          { en: "hobby", uz: "qiziqish, mashg'ulot" },
+          { en: "relax", uz: "dam olmoq" },
+          { en: "drawing", uz: "rasm chizish" },
+          { en: "chess", uz: "shaxmat" },
+          { en: "garden", uz: "bog'" },
+          { en: "plants", uz: "o'simliklar" },
+          { en: "pleasure", uz: "zavq" },
+          { en: "details", uz: "tafsilotlar" },
+          { en: "practice", uz: "mashq qilmoq" },
+          { en: "hands", uz: "qo'llar" }
+        ]
+      },
+
+      // ==========================================
+      // A2: ELEMENTARY (O'rtadan past)
+      // ==========================================
+      {
+        id: "travel",
+        level: "a2",
+        title: "Travel and Places",
+        description: "Exploring new cities slowly and learning from everyday local life.",
+        text: "Whenever I travel to a new place, I prefer to explore slowly rather than rushing from one famous attraction to another. Waking up early and walking through quiet streets before the crowds arrive is the best way to feel the true character of a city. I like sitting in a small neighbourhood cafe, ordering a local pastry, and watching people start their morning. Travelling also teaches you to stay calm when plans change. Sometimes a train is delayed or the weather turns rainy, and those unexpected moments often lead to the best memories. You might discover a small bookshop or talk to a friendly shopkeeper who recommends a hidden park. Returning home after a trip always gives me fresh eyes for my own everyday life.",
+        vocabulary: [
+          { en: "explore", uz: "kashf etmoq" },
+          { en: "attraction", uz: "diqqatga sazovor joy" },
+          { en: "neighbourhood", uz: "mahalla, atrof" },
+          { en: "delayed", uz: "kechiktirilgan" },
+          { en: "unexpected", uz: "kutilmagan" },
+          { en: "memories", uz: "xotiralar" },
+          { en: "discover", uz: "topmoq, bilib olmoq" },
+          { en: "recommend", uz: "tavsiya qilmoq" },
+          { en: "hidden", uz: "yashirin" },
+          { en: "returning", uz: "qaytish" }
+        ]
+      },
+      {
+        id: "health-and-sport",
+        level: "a2",
+        title: "Health and Sport",
+        description: "Staying active through regular movement that you genuinely enjoy.",
+        text: "Staying healthy does not require extreme workouts or complicated rules. The most effective exercise is simply the one that you enjoy enough to repeat week after week. Some people love running in the park early in the morning, while others prefer swimming, cycling, or playing football with friends after work. Regular movement strengthens the heart, clears the mind, and improves sleep quality at night. On busy days when I cannot do a full workout, I still choose to walk instead of taking the bus for short trips. Drinking enough water and eating balanced meals also support the body naturally. When we treat physical activity as a normal part of daily life, we build lasting energy and feel more confident in everything we do.",
+        vocabulary: [
+          { en: "active", uz: "faol" },
+          { en: "workout", uz: "mashg'ulot" },
+          { en: "strengthen", uz: "kuchaytirmoq" },
+          { en: "movement", uz: "harakat" },
+          { en: "quality", uz: "sifat" },
+          { en: "balanced", uz: "muvozanatli" },
+          { en: "regular", uz: "muntazam" },
+          { en: "energy", uz: "quvvat" },
+          { en: "confident", uz: "o'ziga ishongan" },
+          { en: "habits", uz: "odatlar" }
+        ]
+      },
+      {
+        id: "nature-and-weather",
+        level: "a2",
+        title: "Nature and Weather",
+        description: "Observing changing seasons and finding calm outdoors.",
+        text: "Spending time in nature is one of the simplest ways to restore a tired mind. Even in a busy city, noticing the sky, the trees along the street, and the changing weather connects us to the wider world. Each season brings its own atmosphere and rhythm. Spring arrives with bright green leaves and cool morning breezes, while summer offers long, warm evenings outdoors. I especially enjoy crisp autumn days when the air feels fresh and fallen leaves cover the park paths. Even a rainy afternoon has a quiet beauty when you listen to the sound of water against the window. Stepping outside every day, regardless of the weather, reminds us to slow our pace and appreciate the present moment.",
+        vocabulary: [
+          { en: "seasons", uz: "fasllar" },
+          { en: "breeze", uz: "mayin shabada" },
+          { en: "restore", uz: "tiklamoq" },
+          { en: "atmosphere", uz: "muhit" },
+          { en: "rhythm", uz: "marom, ritm" },
+          { en: "crisp", uz: "toza, salqin" },
+          { en: "fallen", uz: "to'kilgan" },
+          { en: "peaceful", uz: "tinch" },
+          { en: "appreciate", uz: "qadrlamoq" },
+          { en: "present", uz: "hozirgi lahza" }
+        ]
+      },
+
+      // ==========================================
+      // B1: INTERMEDIATE (O'rta)
+      // ==========================================
+      {
+        id: "work-and-career",
+        level: "b1",
+        title: "Work and Career",
+        description: "Building useful skills, communicating clearly, and keeping balance.",
+        text: "Building a meaningful career takes patience, curiosity, and steady effort over many years. In any job, technical skills are important, but the ability to listen carefully and explain ideas clearly matters just as much. When people understand each other well, teams solve problems faster and avoid unnecessary stress. I have found that asking honest questions is never a sign of weakness; instead, it shows a desire to learn and improve. At the same time, it is essential to keep a healthy boundary between work and personal life. Stepping away from emails in the evening gives the mind space to recover. Over the long run, consistent daily habits and a calm attitude bring much better results than working late every single night.",
+        vocabulary: [
+          { en: "career", uz: "kasbiy faoliyat" },
+          { en: "meaningful", uz: "mazmunli" },
+          { en: "patience", uz: "sabr-toqat" },
+          { en: "curiosity", uz: "qiziquvchanlik" },
+          { en: "boundary", uz: "chegara" },
+          { en: "consistent", uz: "barqaror, izchil" },
+          { en: "essential", uz: "o'ta muhim" },
+          { en: "recover", uz: "tiklanmoq" },
+          { en: "unnecessary", uz: "keraksiz" },
+          { en: "attitude", uz: "munosabat" }
+        ]
+      },
+      {
+        id: "technology",
+        level: "b1",
+        title: "Technology",
+        description: "Using digital tools with intention without losing focus.",
+        text: "Modern technology allows us to learn almost anything from home and stay in touch with people across the world. With a simple laptop or phone, we can read articles, practice foreign languages, and organise our daily work in seconds. However, being connected all the time can easily divide our attention if we are not careful. Constant notifications make it hard to focus on one task or enjoy a quiet conversation. Recently, I started turning off unnecessary alerts during the day and leaving my phone in another room while I sleep. This small change helped me feel much calmer and more present. Technology works best when we treat it as a helpful tool rather than something that fills every quiet moment of our day.",
+        vocabulary: [
+          { en: "technology", uz: "texnologiya" },
+          { en: "intention", uz: "maqsad, niyat" },
+          { en: "notifications", uz: "bildirishnomalar" },
+          { en: "divide", uz: "bo'lib yubormoq" },
+          { en: "attention", uz: "diqqat" },
+          { en: "present", uz: "hushyor, hozirgi on" },
+          { en: "helpful", uz: "foydali" },
+          { en: "constant", uz: "doimiy" },
+          { en: "distraction", uz: "chalg'ish" },
+          { en: "valuable", uz: "qadrli" }
+        ]
+      },
+      {
+        id: "education",
+        level: "b1",
+        title: "Education",
+        description: "Why learning continues long after school through daily curiosity.",
+        text: "Education does not end on the day we finish school or university. In many ways, the most interesting learning happens when we choose subjects for ourselves later in life. Whether you are studying a foreign language, learning to play a musical instrument, or understanding how history shaped the modern world, curiosity keeps the mind sharp. Speaking a new language aloud, for example, feels awkward at first because nobody likes making mistakes. Yet every mistake is a natural step toward fluency. Reading a few pages every day and practising for fifteen minutes with full attention achieves far more than studying once a month for hours. Real progress comes from patience and a willingness to stay a beginner.",
+        vocabulary: [
+          { en: "education", uz: "ta'lim" },
+          { en: "fluency", uz: "ravonlik" },
+          { en: "curiosity", uz: "qiziquvchanlik" },
+          { en: "awkward", uz: "noqulay" },
+          { en: "natural", uz: "tabiiy" },
+          { en: "achieves", uz: "erishadi" },
+          { en: "patience", uz: "sabr" },
+          { en: "willingness", uz: "tayyorlik, istak" },
+          { en: "practising", uz: "mashq qilish" },
+          { en: "progress", uz: "rivojlanish" }
+        ]
+      }
+    ];
+  </script>
+
+  <!-- ========================================================================
+       MODULE 3: js/audio.js
+       Handles assets/lofi.mp3 with 1.5s fade-in/out & warm Web Audio fallback,
+       plus assets/intro.mp3 with SpeechSynthesis English female voice fallback.
+       ======================================================================== -->
+  <script id="script-audio">
+    /**
+     * js/audio.js
+     * Audio controller for Speakline:
+     * 1. Background Lofi Music: tries `assets/lofi.mp3` (looped, default volume 0.25, 1.5s fade-in/out).
+     *    If `assets/lofi.mp3` is missing (placeholder), seamlessly synthesizes a gentle, warm Web Audio
+     *    lofi chord pad so volume controls, fade-in/out, and tab visibility pause/resume work without errors.
+     * 2. Intro Voice Line: tries `assets/intro.mp3`. If missing, falls back to SpeechSynthesis API
+     *    saying "Speak fast and clear" with an English female voice if available.
+     */
+    class AudioController {
+      constructor() {
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.getVoices();
+          window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+          };
+        }
+      }
+
+      playIntroVoice(text = "Speak fast and clear") {
+        return new Promise((resolve) => {
+          const introAudio = new Audio();
+          let settled = false;
+
+          const done = () => {
+            if (settled) return;
+            settled = true;
+            resolve();
+          };
+
+          const fallbackToSpeech = () => {
+            if (settled) return;
+            if (!("speechSynthesis" in window)) {
+              setTimeout(done, 700);
+              return;
+            }
+            try {
+              window.speechSynthesis.cancel();
+              const utterance = new SpeechSynthesisUtterance(text);
+              utterance.lang = "en-US";
+              utterance.rate = 0.98;
+              utterance.pitch = 1.02;
+
+              const voices = window.speechSynthesis.getVoices();
+              const englishVoices = voices.filter((v) => v.lang && v.lang.toLowerCase().startsWith("en"));
+              const preferredFemale = englishVoices.find((v) =>
+                /female|samantha|victoria|karen|moira|tessa|zira|hazel|susan|libby|aria|jenny|google uk english female|google us english/i.test(v.name)
+              );
+              if (preferredFemale) {
+                utterance.voice = preferredFemale;
+              } else if (englishVoices.length > 0) {
+                utterance.voice = englishVoices[0];
+              }
+
+              const safetyTimer = setTimeout(done, 2400);
+              utterance.onend = () => {
+                clearTimeout(safetyTimer);
+                done();
+              };
+              utterance.onerror = () => {
+                clearTimeout(safetyTimer);
+                done();
+              };
+              window.speechSynthesis.speak(utterance);
+            } catch (err) {
+              setTimeout(done, 700);
+            }
+          };
+
+          const loadTimeout = setTimeout(() => {
+            introAudio.src = "";
+            fallbackToSpeech();
+          }, 450);
+
+          introAudio.oncanplaythrough = () => {
+            clearTimeout(loadTimeout);
+            introAudio.onended = done;
+            introAudio.onerror = fallbackToSpeech;
+            introAudio.play().catch(fallbackToSpeech);
+          };
+
+          introAudio.onerror = () => {
+            clearTimeout(loadTimeout);
+            fallbackToSpeech();
+          };
+
+          introAudio.src = "assets/intro.mp3";
+        });
+      }
+    }
+  </script>
+
+  <!-- ========================================================================
+       MODULE 4: js/mic.js
+       getUserMedia + Web Audio API AnalyserNode with ambient calibration,
+       5s silence auto-pause detection, speaking ratio calculation, and disconnect handling.
+       ======================================================================== -->
+  <script id="script-mic">
+    /**
+     * js/mic.js
+     * Local microphone analyser using getUserMedia + Web Audio API AnalyserNode.
+     * - Enables echoCancellation and noiseSuppression.
+     * - Never records or uploads audio.
+     * - Calibrates ambient noise threshold during the 3-2-1 countdown.
+     * - Detects speech and triggers auto-pause after 5 continuous seconds of silence.
+     */
+    class MicMonitor {
+      constructor() {
+        this.stream = null;
+        this.audioCtx = null;
+        this.analyser = null;
+        this.source = null;
+        this.dataArray = null;
+
+        this.isAvailable = false;
+        this.isCalibrating = false;
+        this.calibrationSamples = [];
+        this.threshold = 0.018; // Default RMS threshold, refined by calibration
+
+        this.isSpeaking = false;
+        this.lastSpeechHoldTime = 0;
+        this.speechHoldGraceMs = 380; // Smooth natural syllables/word gaps
+      }
+
+      /**
+       * Requests microphone permission with echoCancellation and noiseSuppression
+       */
+      async requestAccess() {
+        this.cleanup();
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          this.isAvailable = false;
+          return false;
+        }
+
+        try {
+          this.stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true
+            },
+            video: false
+          });
+
+          // Handle unexpected microphone disconnect during session
+          const tracks = this.stream.getAudioTracks();
+          if (tracks.length > 0) {
+            tracks[0].onended = () => {
+              this.isAvailable = false;
+            };
+          }
+
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          this.audioCtx = new AudioContextClass();
+          if (this.audioCtx.state === "suspended") {
+            await this.audioCtx.resume();
+          }
+
+          this.analyser = this.audioCtx.createAnalyser();
+          this.analyser.fftSize = 512;
+          this.analyser.smoothingTimeConstant = 0.5;
+
+          this.source = this.audioCtx.createMediaStreamSource(this.stream);
+          this.source.connect(this.analyser);
+
+          this.dataArray = new Float32Array(this.analyser.fftSize);
+          this.isAvailable = true;
+          return true;
+        } catch (err) {
+          this.isAvailable = false;
+          return false;
+        }
+      }
+
+      /**
+       * Measures instantaneous RMS volume from the AnalyserNode (0.0 to 1.0)
+       */
+      getRmsVolume() {
+        if (!this.isAvailable || !this.analyser || !this.dataArray) return 0;
+
+        // Check if track ended unexpectedly
+        const tracks = this.stream ? this.stream.getAudioTracks() : [];
+        if (!tracks.length || tracks[0].readyState === "ended") {
+          this.isAvailable = false;
+          return 0;
+        }
+
+        this.analyser.getFloatTimeDomainData(this.dataArray);
+        let sumSquares = 0;
+        for (let i = 0; i < this.dataArray.length; i++) {
+          const sample = this.dataArray[i];
+          sumSquares += sample * sample;
+        }
+        return Math.sqrt(sumSquares / this.dataArray.length);
+      }
+
+      /**
+       * Starts sampling ambient room noise during the 3-2-1 countdown
+       */
+      startCalibration() {
+        this.calibrationSamples = [];
+        this.isCalibrating = true;
+      }
+
+      /**
+       * Samples current ambient level during countdown
+       */
+      recordCalibrationSample() {
+        if (!this.isAvailable || !this.isCalibrating) return;
+        const rms = this.getRmsVolume();
+        this.calibrationSamples.push(rms);
+      }
+
+      /**
+       * Finishes calibration and sets a soft, responsive speech threshold above ambient noise
+       */
+      finishCalibration() {
+        this.isCalibrating = false;
+        if (!this.calibrationSamples.length) {
+          this.threshold = 0.016;
+          return;
+        }
+        // Sort and take median ambient level so a brief cough during countdown doesn't skew threshold
+        const sorted = [...this.calibrationSamples].sort((a, b) => a - b);
+        const medianAmbient = sorted[Math.floor(sorted.length * 0.6)] || 0.005;
+
+        // Set threshold softly above ambient noise, clamped so it is never unreachable
+        this.threshold = Math.min(0.055, Math.max(0.012, medianAmbient * 2.1 + 0.008));
+      }
+
+      /**
+       * Evaluates whether the user is currently speaking at timestamp `now`
+       */
+      sampleSpeakingState(now) {
+        if (!this.isAvailable) {
+          this.isSpeaking = false;
+          return false;
+        }
+        const rms = this.getRmsVolume();
+        if (rms >= this.threshold) {
+          this.lastSpeechHoldTime = now;
+          this.isSpeaking = true;
+        } else if (now - this.lastSpeechHoldTime <= this.speechHoldGraceMs) {
+          this.isSpeaking = true;
+        } else {
+          this.isSpeaking = false;
+        }
+        return this.isSpeaking;
+      }
+
+      /**
+       * Stops all microphone tracks and closes the analyser AudioContext
+       */
+      cleanup() {
+        if (this.source) {
+          try { this.source.disconnect(); } catch (e) {}
+          this.source = null;
+        }
+        if (this.audioCtx && this.audioCtx.state !== "closed") {
+          try { this.audioCtx.close(); } catch (e) {}
+        }
+        this.audioCtx = null;
+        this.analyser = null;
+        if (this.stream) {
+          this.stream.getTracks().forEach((t) => {
+            try { t.stop(); } catch (e) {}
+          });
+          this.stream = null;
+        }
+        this.isAvailable = false;
+        this.isSpeaking = false;
+      }
+    }
+  
+    /**
+     * Dictaphone Voice Recorder using browser MediaRecorder API
+     */
+    class VoiceRecorder {
+      constructor() {
+        this.mediaRecorder = null;
+        this.chunks = [];
+        this.startTime = 0;
+        this.isRecording = false;
+      }
+
+      start(stream) {
+        if (!stream) return false;
+        try {
+          let options = {};
+          if (typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported) {
+            if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
+              options = { mimeType: "audio/webm;codecs=opus", audioBitsPerSecond: 24000 };
+            } else if (MediaRecorder.isTypeSupported("audio/webm")) {
+              options = { mimeType: "audio/webm", audioBitsPerSecond: 24000 };
+            } else if (MediaRecorder.isTypeSupported("audio/mp4")) {
+              options = { mimeType: "audio/mp4", audioBitsPerSecond: 24000 };
+            }
+          }
+          this.chunks = [];
+          this.mediaRecorder = new MediaRecorder(stream, options);
+          this.mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+              this.chunks.push(e.data);
+            }
+          };
+          this.mediaRecorder.start(250);
+          this.startTime = Date.now();
+          this.isRecording = true;
+          return true;
+        } catch (err) {
+          console.warn("VoiceRecorder start failed:", err);
+          this.isRecording = false;
+          return false;
+        }
+      }
+
+      stop() {
+        return new Promise((resolve) => {
+          if (!this.mediaRecorder || this.mediaRecorder.state === "inactive") {
+            this.isRecording = false;
+            resolve(null);
+            return;
+          }
+          this.mediaRecorder.onstop = () => {
+            this.isRecording = false;
+            const mimeType = this.mediaRecorder.mimeType || "audio/webm";
+            const blob = new Blob(this.chunks, { type: mimeType });
+            const durationSec = Math.max(1, Math.round((Date.now() - this.startTime) / 1000));
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              resolve({
+                dataUrl: reader.result,
+                durationSec,
+                mimeType
+              });
+            };
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          };
+          try {
+            this.mediaRecorder.stop();
+          } catch (e) {
+            this.isRecording = false;
+            resolve(null);
+          }
+        });
+      }
+    }
+
+    /**
+     * LocalStorage Dictaphone Voice Audio Storage (Max 3 items, FIFO replacement)
+     */
+    const VoiceStorage = {
+      STORAGE_KEY: "speakline_recordings",
+      MAX_RECORDINGS: 3,
+
+      getAll() {
+        try {
+          const raw = localStorage.getItem(this.STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      },
+
+      save(item) {
+        let list = this.getAll();
+        const d = new Date();
+        const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const dateStr = d.toLocaleDateString([], { month: "short", day: "numeric" });
+
+        const record = {
+          id: "rec_" + Date.now(),
+          topicId: item.topicId || "topic",
+          topicTitle: item.topicTitle || "Speaking Practice",
+          timestamp: Date.now(),
+          formattedDate: `${timeStr}, ${dateStr}`,
+          durationSec: item.durationSec || 0,
+          dataUrl: item.dataUrl
+        };
+
+        list.push(record);
+
+        // Keep maximum 3 items - remove oldest if exceeded
+        while (list.length > this.MAX_RECORDINGS) {
+          list.shift();
+        }
+
+        this.persist(list);
+        return record;
+      },
+
+      persist(list) {
+        try {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+        } catch (e) {
+          // If storage quota exceeded, drop oldest until it fits
+          while (list.length > 1) {
+            list.shift();
+            try {
+              localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+              return;
+            } catch (err) {}
+          }
+        }
+      },
+
+      delete(id) {
+        let list = this.getAll().filter((r) => r.id !== id);
+        this.persist(list);
+        return list;
+      },
+
+      clearAll() {
+        try {
+          localStorage.removeItem(this.STORAGE_KEY);
+        } catch (e) {}
+      }
+    };
+
+  </script>
+
+  <!-- ========================================================================
+       MODULE 5: js/reader.js
+       Smooth requestAnimationFrame teleprompter engine, word-level passed-line
+       highlighting at 40% viewport height, viewport-scaled speeds, and pace metrics.
+       ======================================================================== -->
+  <script id="script-reader">
+    /**
+     * js/reader.js
+     * Smooth teleprompter scroll engine driven by requestAnimationFrame.
+     * - Base speeds (px/second): Slow 22, Medium 36, Fast 54.
+     * - Fixed reading line at 40% of viewport height.
+     */
+    class TeleprompterReader {
+      constructor(options) {
+        this.trackEl = options.trackEl;
+        this.textContainerEl = options.textContainerEl;
+        this.spacerTopEl = options.spacerTopEl;
+        this.spacerBottomEl = options.spacerBottomEl;
+        this.progressBarEl = options.progressBarEl;
+        this.progressTrackEl = options.progressTrackEl;
+        this.autoPauseBannerEl = options.autoPauseBannerEl;
+        this.micMonitor = options.micMonitor;
+        this.onComplete = options.onComplete;
+        this.onStateChange = options.onStateChange;
+
+        this.currentWpm = 140;
+        this.pixelsPerWord = 12.5;
+
+        this.wordSpans = [];
+        this.wordOffsets = [];
+        this.totalScrollDistance = 0;
+        this.currentOffset = 0;
+        this.readingLineY = 0;
+
+        this.rafId = null;
+        this.lastFrameTime = 0;
+
+        this.isRunning = false;
+        this.isManualPaused = false;
+        this.isAutoPaused = false;
+        this.isTabPaused = false;
+
+        this.continuousSilenceMs = 0;
+        this.autoPauseSilenceLimitMs = 5000;
+
+        this.activeReadingTimeMs = 0;
+        this.speakingTimeMs = 0;
+
+        this.handleResizeBound = this.handleResize.bind(this);
+      }
+
+      prepare(text, speed) {
+        this.setSpeed(speed || 140);
+        this.textContainerEl.innerHTML = "";
+        this.wordSpans = [];
+        this.wordOffsets = [];
+
+        const tokens = text.trim().split(/\s+/);
+        const fragment = document.createDocumentFragment();
+
+        const wordsPerLine = 4;
+        for (let i = 0; i < tokens.length; i += wordsPerLine) {
+          const lineWords = tokens.slice(i, i + wordsPerLine);
+          const lineEl = document.createElement("div");
+          lineEl.className = "reading-line";
+
+          lineWords.forEach((word, wordIdx) => {
+            const span = document.createElement("span");
+            span.className = "reading-word";
+            span.textContent = word;
+            lineEl.appendChild(span);
+            this.wordSpans.push(span);
+
+            if (wordIdx < lineWords.length - 1) {
+              lineEl.appendChild(document.createTextNode(" "));
+            }
+          });
+
+          fragment.appendChild(lineEl);
+        }
+
+        this.textContainerEl.appendChild(fragment);
+
+        this.currentOffset = 0;
+        this.activeReadingTimeMs = 0;
+        this.speakingTimeMs = 0;
+        this.continuousSilenceMs = 0;
+        this.isManualPaused = false;
+        this.isAutoPaused = false;
+        this.isTabPaused = false;
+
+        this.updateAutoPauseBanner(false);
+        this.updateProgressUI(0);
+        this.recalculateMetrics();
+        this.applyTransform();
+        this.updatePassedWords();
+      }
+
+      recalculateMetrics() {
+        const vh = window.innerHeight || document.documentElement.clientHeight || 700;
+        this.readingLineY = vh * 0.40;
+
+        const topSpace = Math.round(vh * 0.46);
+        const bottomSpace = Math.round(vh * 0.64);
+
+        this.spacerTopEl.style.height = `${topSpace}px`;
+        this.spacerBottomEl.style.height = `${bottomSpace}px`;
+
+        const textHeight = this.textContainerEl.offsetHeight || 400;
+        const wordCount = Math.max(1, this.wordSpans.length);
+        this.pixelsPerWord = (this.textContainerEl.offsetHeight > 0)
+          ? this.textContainerEl.offsetHeight / wordCount
+          : 12.5;
+
+        const previousTotal = this.totalScrollDistance;
+        const progressRatio = previousTotal > 0 ? this.currentOffset / previousTotal : 0;
+
+        this.totalScrollDistance = Math.max(100, (topSpace - this.readingLineY) + textHeight + Math.round(vh * 0.12));
+
+        if (previousTotal > 0) {
+          this.currentOffset = progressRatio * this.totalScrollDistance;
+        }
+
+        this.wordOffsets = this.wordSpans.map((span) => {
+          return span.offsetTop + span.offsetHeight * 0.52;
+        });
+      }
+
+      getEffectivePixelsPerSecond() {
+        const wpm = this.currentWpm || 140;
+        const ppw = this.pixelsPerWord || 12.5;
+        return (wpm / 60) * ppw;
+      }
+
+      setSpeed(val) {
+        if (typeof val === "number" && !isNaN(val)) {
+          this.currentWpm = Math.max(60, Math.min(250, Math.round(val)));
+        } else if (typeof val === "string") {
+          const num = parseInt(val, 10);
+          if (!isNaN(num)) {
+            this.currentWpm = Math.max(60, Math.min(250, num));
+          } else {
+            const map = { slow: 80, medium: 140, fast: 190, max: 250 };
+            this.currentWpm = map[val] || 140;
+          }
+        }
+      }
+
+      start() {
+        this.isRunning = true;
+        this.lastFrameTime = performance.now();
+        window.addEventListener("resize", this.handleResizeBound, { passive: true });
+        this.rafId = requestAnimationFrame((now) => this.tick(now));
+      }
+
+      stop() {
+        this.isRunning = false;
+        if (this.rafId) {
+          cancelAnimationFrame(this.rafId);
+          this.rafId = null;
+        }
+        window.removeEventListener("resize", this.handleResizeBound);
+      }
+
+      handleResize() {
+        if (!this.isRunning) return;
+        this.recalculateMetrics();
+        this.applyTransform();
+        this.updatePassedWords();
+      }
+
+      toggleManualPause() {
+        if (!this.isRunning) return;
+        this.isManualPaused = !this.isManualPaused;
+        if (!this.isManualPaused) {
+          this.continuousSilenceMs = 0;
+          this.isAutoPaused = false;
+          this.updateAutoPauseBanner(false);
+        }
+        this.lastFrameTime = performance.now();
+        if (this.onStateChange) this.onStateChange();
+      }
+
+      setTabPaused(paused) {
+        this.isTabPaused = paused;
+        this.lastFrameTime = performance.now();
+      }
+
+      tick(now) {
+        if (!this.isRunning) return;
+
+        const dtMs = Math.min(100, Math.max(0, now - this.lastFrameTime));
+        this.lastFrameTime = now;
+
+        const micActive = this.micMonitor && this.micMonitor.isAvailable;
+        const speakingNow = micActive ? this.micMonitor.sampleSpeakingState(now) : false;
+
+        if (!this.isManualPaused && !this.isTabPaused) {
+          if (micActive) {
+            if (speakingNow) {
+              this.continuousSilenceMs = 0;
+              if (this.isAutoPaused) {
+                this.isAutoPaused = false;
+                this.updateAutoPauseBanner(false);
+                if (this.onStateChange) this.onStateChange();
+              }
+            } else {
+              this.continuousSilenceMs += dtMs;
+              if (this.continuousSilenceMs >= this.autoPauseSilenceLimitMs && !this.isAutoPaused) {
+                this.isAutoPaused = true;
+                this.updateAutoPauseBanner(true);
+                if (this.onStateChange) this.onStateChange();
+              }
+            }
+          } else {
+            if (this.isAutoPaused) {
+              this.isAutoPaused = false;
+              this.updateAutoPauseBanner(false);
+            }
+          }
+
+          if (!this.isAutoPaused) {
+            this.activeReadingTimeMs += dtMs;
+            if (micActive && speakingNow) {
+              this.speakingTimeMs += dtMs;
+            }
+
+            const pxPerSec = this.getEffectivePixelsPerSecond();
+            this.currentOffset += (pxPerSec * dtMs) / 1000;
+
+            this.applyTransform();
+            this.updatePassedWords();
+
+            const progress = Math.min(1, this.currentOffset / this.totalScrollDistance);
+            this.updateProgressUI(progress);
+
+            if (this.currentOffset >= this.totalScrollDistance) {
+              this.finishReading();
+              return;
+            }
+          }
+        }
+
+        if (this.onStateChange) {
+          this.onStateChange(speakingNow);
+        }
+
+        this.rafId = requestAnimationFrame((nextNow) => this.tick(nextNow));
+      }
+
+      applyTransform() {
+        this.trackEl.style.transform = `translate3d(0, ${-this.currentOffset}px, 0)`;
+      }
+
+      updatePassedWords() {
+        const thresholdInTrackCoords = this.currentOffset + this.readingLineY;
+        for (let i = 0; i < this.wordSpans.length; i++) {
+          const wordCenterY = this.wordOffsets[i];
+          const passed = wordCenterY < thresholdInTrackCoords;
+          const span = this.wordSpans[i];
+          if (passed && !span.classList.contains("is-passed")) {
+            span.classList.add("is-passed");
+          } else if (!passed && span.classList.contains("is-passed")) {
+            span.classList.remove("is-passed");
+          }
+        }
+      }
+
+      updateProgressUI(ratio) {
+        const pct = Math.max(0, Math.min(100, Math.round(ratio * 100)));
+        this.progressBarEl.style.width = `${ (ratio * 100).toFixed(2) }%`;
+        this.progressTrackEl.setAttribute("aria-valuenow", String(pct));
+      }
+
+      updateAutoPauseBanner(visible) {
+        if (visible) {
+          this.autoPauseBannerEl.classList.add("is-visible");
+        } else {
+          this.autoPauseBannerEl.classList.remove("is-visible");
+        }
+      }
+
+      finishReading() {
+        this.stop();
+        const micUsed = this.micMonitor && this.micMonitor.isAvailable;
+        const totalSec = Math.max(1, Math.round(this.activeReadingTimeMs / 1000));
+        let ratioPct = 0;
+        if (micUsed && this.activeReadingTimeMs > 0) {
+          ratioPct = Math.min(100, Math.round((this.speakingTimeMs / this.activeReadingTimeMs) * 100));
+        }
+        if (this.onComplete) {
+          this.onComplete({
+            micUsed,
+            speakingRatioPct: ratioPct,
+            durationSeconds: totalSec
+          });
+        }
+      }
+    }
+  </script>
+
+  <!-- ========================================================================
+       MODULE 5.5: js/vocabulary.js
+       Vocabulary text-to-speech speaker.
+       Speaks English first, then Uzbek translation, repeating each word twice:
+       Cycle 1: [EN] -> 400ms -> [UZ] -> 800ms
+       Cycle 2: [EN] -> 400ms -> [UZ] -> 1200ms -> next word
+       ======================================================================== -->
+  <script id="script-vocabulary">
+    /**
+     * js/vocabulary.js
+     * Vocabulary 2-cycle voice dictation engine using Web Speech API.
+     */
+    class VocabularySpeaker {
+      constructor(options = {}) {
+        this.onWordStart = options.onWordStart || (() => {});
+        this.onWordEnd = options.onWordEnd || (() => {});
+        this.onCycleChange = options.onCycleChange || (() => {});
+        this.onComplete = options.onComplete || (() => {});
+        this.onStateChange = options.onStateChange || (() => {});
+
+        this.words = [];
+        this.currentIndex = 0;
+        this.isPlaying = false;
+        this.isAutoplay = false;
+        this.isCancelled = false;
+        this.timeoutId = null;
+
+        this.voices = [];
+        this.initVoices();
+      }
+
+      initVoices() {
+        if (!("speechSynthesis" in window)) return;
+        const loadVoices = () => {
+          try {
+            this.voices = window.speechSynthesis.getVoices() || [];
+          } catch (e) {
+            this.voices = [];
+          }
+        };
+        loadVoices();
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+          window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+      }
+
+      getVoice(langCode) {
+        if (!this.voices || this.voices.length === 0) {
+          if ("speechSynthesis" in window) {
+            try {
+              this.voices = window.speechSynthesis.getVoices() || [];
+            } catch (e) {}
+          }
+        }
+        if (!this.voices || this.voices.length === 0) return null;
+
+        if (langCode.startsWith("en")) {
+          return (
+            this.voices.find((v) => v.lang === "en-US") ||
+            this.voices.find((v) => v.lang === "en-GB") ||
+            this.voices.find((v) => v.lang && v.lang.startsWith("en")) ||
+            null
+          );
+        }
+        if (langCode.startsWith("uz")) {
+          return (
+            this.voices.find((v) => v.lang && v.lang.toLowerCase().startsWith("uz")) ||
+            null
+          );
+        }
+        return null;
+      }
+
+      setWords(words) {
+        this.stop();
+        this.words = Array.isArray(words) ? words : [];
+        this.currentIndex = 0;
+      }
+
+      speakUtterance(text, lang) {
+        return new Promise((resolve) => {
+          if (this.isCancelled) return resolve(false);
+          if (!("speechSynthesis" in window)) return resolve(false);
+
+          try {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang === "uz" ? "uz-UZ" : "en-US";
+            const matchedVoice = this.getVoice(utterance.lang);
+            if (matchedVoice) utterance.voice = matchedVoice;
+            utterance.rate = lang === "uz" ? 0.90 : 0.95;
+            utterance.pitch = 1.0;
+
+            let finished = false;
+            const done = () => {
+              if (!finished) {
+                finished = true;
+                resolve(!this.isCancelled);
+              }
+            };
+
+            utterance.onend = done;
+            utterance.onerror = () => {
+              done();
+            };
+
+            const wordTokens = String(text).split(/\s+/).length;
+            const maxWaitMs = Math.max(2500, wordTokens * 700 + 1500);
+            const timerId = setTimeout(done, maxWaitMs);
+
+            const originalDone = done;
+            utterance.onend = () => {
+              clearTimeout(timerId);
+              originalDone();
+            };
+
+            window.speechSynthesis.speak(utterance);
+          } catch (err) {
+            resolve(false);
+          }
+        });
+      }
+
+      wait(ms) {
+        return new Promise((resolve) => {
+          this.timeoutId = setTimeout(() => {
+            resolve(!this.isCancelled);
+          }, ms);
+        });
+      }
+
+      async playWord(index, isAutoplay = false) {
+        if (index < 0 || index >= this.words.length) {
+          this.stop();
+          return;
+        }
+
+        this.stopCurrentPlaybackOnly();
+        this.isPlaying = true;
+        this.isAutoplay = isAutoplay;
+        this.isCancelled = false;
+        this.currentIndex = index;
+
+        this.onStateChange(true, this.isAutoplay);
+        const word = this.words[index];
+        this.onWordStart(index, word);
+
+        // ================= CYCLE 1 =================
+        // 1. English
+        this.onCycleChange(1, "en", word);
+        await this.speakUtterance(word.en, "en");
+        if (this.isCancelled) return;
+
+        // 400ms pause
+        await this.wait(400);
+        if (this.isCancelled) return;
+
+        // 2. Uzbek translation
+        this.onCycleChange(1, "uz", word);
+        await this.speakUtterance(word.uz, "uz");
+        if (this.isCancelled) return;
+
+        // 800ms pause between cycles
+        await this.wait(800);
+        if (this.isCancelled) return;
+
+        // ================= CYCLE 2 =================
+        // 3. English (repeated)
+        this.onCycleChange(2, "en", word);
+        await this.speakUtterance(word.en, "en");
+        if (this.isCancelled) return;
+
+        // 400ms pause
+        await this.wait(400);
+        if (this.isCancelled) return;
+
+        // 4. Uzbek translation (repeated)
+        this.onCycleChange(2, "uz", word);
+        await this.speakUtterance(word.uz, "uz");
+        if (this.isCancelled) return;
+
+        this.onWordEnd(index, word);
+
+        // Advance to next word if autoplay
+        if (this.isAutoplay) {
+          if (index + 1 < this.words.length) {
+            await this.wait(1200);
+            if (this.isCancelled) return;
+            await this.playWord(index + 1, true);
+          } else {
+            this.isPlaying = false;
+            this.isAutoplay = false;
+            this.onStateChange(false, false);
+            this.onComplete();
+          }
+        } else {
+          this.isPlaying = false;
+          this.onStateChange(false, false);
+        }
+      }
+
+      stopCurrentPlaybackOnly() {
+        this.isCancelled = true;
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId);
+          this.timeoutId = null;
+        }
+        if ("speechSynthesis" in window) {
+          try {
+            window.speechSynthesis.cancel();
+          } catch (e) {}
+        }
+      }
+
+      stop() {
+        this.stopCurrentPlaybackOnly();
+        this.isPlaying = false;
+        this.isAutoplay = false;
+        this.onStateChange(false, false);
+      }
+
+      togglePlayAll() {
+        if (this.isPlaying && this.isAutoplay) {
+          this.stop();
+        } else {
+          const startIdx = (this.currentIndex >= this.words.length - 1 && !this.isPlaying) ? 0 : this.currentIndex;
+          this.playWord(startIdx, true);
+        }
+      }
+
+      next() {
+        if (this.currentIndex + 1 < this.words.length) {
+          const wasAutoplay = this.isPlaying && this.isAutoplay;
+          this.playWord(this.currentIndex + 1, wasAutoplay);
+        }
+      }
+
+      prev() {
+        if (this.currentIndex - 1 >= 0) {
+          const wasAutoplay = this.isPlaying && this.isAutoplay;
+          this.playWord(this.currentIndex - 1, wasAutoplay);
+        }
+      }
+    }
+  </script>
+
+  <!-- ========================================================================
+       MODULE 6: js/app.js
+       Screen router, state persistence, speed selector reliability & fixes
+       ======================================================================== -->
+  <script id="script-app">
+    /**
+     * js/app.js
+     * Main application controller for Speakline.
+     */
+    class SpeaklineApp {
+      constructor() {
+        this.lang = localStorage.getItem("speakline_lang") || "en";
+        if (!STRINGS[this.lang]) this.lang = "en";
+
+        this.selectedTopic = TOPICS[0];
+        const savedWpm = parseInt(localStorage.getItem("speakline_wpm"), 10);
+        this.selectedWpm = (!isNaN(savedWpm) && savedWpm >= 60 && savedWpm <= 250) ? savedWpm : 140;
+
+        this.selectedLevel = localStorage.getItem("speakline_level") || "a1";
+        if (this.selectedLevel !== "a1" && this.selectedLevel !== "a2" && this.selectedLevel !== "b1") {
+          this.selectedLevel = "a1";
+        }
+
+        this.currentScreen = "home";
+        this.isTransitioning = false;
+        this.countdownTimerIds = [];
+
+        this.audio = new AudioController();
+        this.mic = new MicMonitor();
+        this.recorder = new VoiceRecorder();
+        this.playbackAudio = new Audio();
+        this.currentlyPlayingId = null;
+
+        this.vocabSpeaker = new VocabularySpeaker({
+          onWordStart: (index, word) => {
+            this.updateVocabCounter(index);
+            this.highlightVocabWord(index, true);
+          },
+          onWordEnd: (index, word) => {
+            this.highlightVocabWord(index, false);
+          },
+          onCycleChange: (cycle, lang, word) => {
+            if (this.dom.vocabStatusText) {
+              this.dom.vocabStatusText.textContent = this.t("speakingStatus", word.en, word.uz, cycle, lang);
+            }
+            if (this.dom.vocabStatusPulse) {
+              this.dom.vocabStatusPulse.style.display = "inline-block";
+            }
+          },
+          onComplete: () => {
+            if (this.dom.vocabStatusText) {
+              this.dom.vocabStatusText.textContent = this.t("completedStatus");
+            }
+            if (this.dom.vocabStatusPulse) {
+              this.dom.vocabStatusPulse.style.display = "none";
+            }
+            if (this.dom.btnVocabPlayAll) {
+              this.dom.btnVocabPlayAll.textContent = this.t("playAllWords");
+            }
+          },
+          onStateChange: (isPlaying, isAutoplay) => {
+            if (this.dom.btnVocabPlayAll) {
+              this.dom.btnVocabPlayAll.textContent = (isPlaying && isAutoplay) ? this.t("pauseWords") : this.t("playAllWords");
+            }
+            if (!isPlaying) {
+              if (this.dom.vocabStatusPulse) {
+                this.dom.vocabStatusPulse.style.display = "none";
+              }
+            }
+          }
+        });
+
+        this.cacheDom();
+        this.reader = new TeleprompterReader({
+          trackEl: this.dom.readingScrollTrack,
+          textContainerEl: this.dom.readingTextContainer,
+          spacerTopEl: this.dom.readingSpacerTop,
+          spacerBottomEl: this.dom.readingSpacerBottom,
+          progressBarEl: this.dom.readingProgressFill,
+          progressTrackEl: this.dom.readingProgressbar,
+          autoPauseBannerEl: this.dom.autoPauseBanner,
+          micMonitor: this.mic,
+          onComplete: (stats) => this.handleReadingFinished(stats),
+          onStateChange: (speakingNow) => this.syncReadingControlsUI(speakingNow)
+        });
+
+        this.bindEvents();
+        this.applyTranslations();
+        this.updateLevelTabsUI();
+        this.renderHomeTopics();
+        this.initFileInspector();
+        this.setupPlaybackAudio();
+        this.renderRecordingsUI();
+      }
+
+      t(key, ...args) {
+        const dict = STRINGS[this.lang] || STRINGS.en;
+        const entry = dict[key] !== undefined ? dict[key] : STRINGS.en[key];
+        return typeof entry === "function" ? entry(...args) : entry;
+      }
+
+      cacheDom() {
+        this.dom = {
+          screens: {
+            home: document.getElementById("screen-home"),
+            setup: document.getElementById("screen-setup"),
+            intro: document.getElementById("screen-intro"),
+            reading: document.getElementById("screen-reading"),
+            result: document.getElementById("screen-result"),
+            vocabulary: document.getElementById("screen-vocabulary")
+          },
+          appTitle: document.getElementById("ui-app-title"),
+          todayCount: document.getElementById("ui-today-count"),
+          todayCountNum: document.getElementById("ui-today-count-num"),
+          savedCountNum: document.getElementById("ui-saved-count-num"),
+          topicCounter: document.getElementById("ui-topic-counter"),
+          btnRecCountLabel: document.getElementById("btn-rec-count-label"),
+          btnHomeMenu: document.getElementById("btn-home-menu"),
+          btnHeroQuickStart: document.getElementById("btn-hero-quick-start"),
+          statCardRecordings: document.getElementById("stat-card-recordings"),
+          navBtnHome: document.getElementById("nav-btn-home"),
+          navBtnTopics: document.getElementById("nav-btn-topics"),
+          navBtnAction: document.getElementById("nav-btn-action"),
+          navBtnVocab: document.getElementById("nav-btn-vocab"),
+          navBtnProfile: document.getElementById("nav-btn-profile"),
+          langToggleBtn: document.getElementById("btn-lang-toggle"),
+          topicList: document.getElementById("topic-list"),
+          footerNote: document.getElementById("ui-footer-note"),
+          openFilesBtn: document.getElementById("btn-open-files"),
+
+          levelTabs: document.querySelectorAll(".level-tab"),
+          tabNameA1: document.getElementById("ui-tab-name-a1"),
+          tabNameA2: document.getElementById("ui-tab-name-a2"),
+          tabNameB1: document.getElementById("ui-tab-name-b1"),
+
+          vocabBackBtn: document.getElementById("btn-vocab-back"),
+          vocabLevelBadge: document.getElementById("vocab-level-badge"),
+          vocabTopicTitle: document.getElementById("vocab-topic-title"),
+          vocabTopicDesc: document.getElementById("vocab-topic-desc"),
+          btnVocabPlayAll: document.getElementById("btn-vocab-play-all"),
+          btnVocabPrev: document.getElementById("btn-vocab-prev"),
+          vocabWordCounter: document.getElementById("vocab-word-counter"),
+          btnVocabNext: document.getElementById("btn-vocab-next"),
+          vocabStatusPulse: document.getElementById("vocab-status-pulse"),
+          vocabStatusText: document.getElementById("vocab-status-text"),
+          vocabWordsList: document.getElementById("vocab-words-list"),
+          btnVocabReadText: document.getElementById("btn-vocab-read-text"),
+          btnVocabTopics: document.getElementById("btn-vocab-topics"),
+
+          setupBackBtn: document.getElementById("btn-setup-back"),
+          setupTopicTitle: document.getElementById("setup-topic-title"),
+          setupTopicDesc: document.getElementById("setup-topic-desc"),
+          speedLabel: document.getElementById("ui-speed-label"),
+          setupSpeedVal: document.getElementById("ui-setup-speed-val"),
+          setupSpeedSlider: document.getElementById("slider-setup-speed"),
+          speedTickMin: document.getElementById("ui-speed-tick-min"),
+          speedTickMax: document.getElementById("ui-speed-tick-max"),
+          speedBtns: {
+            slow: document.getElementById("btn-speed-slow"),
+            medium: document.getElementById("btn-speed-medium"),
+            fast: document.getElementById("btn-speed-fast"),
+            max: document.getElementById("btn-speed-max")
+          },
+          startReadingBtn: document.getElementById("btn-start-reading"),
+          setupHint: document.getElementById("ui-setup-hint"),
+
+          introPromptText: document.getElementById("intro-prompt-text"),
+          introCountdownNum: document.getElementById("intro-countdown-num"),
+          introCalibrationNote: document.getElementById("intro-calibration-note"),
+
+          readingProgressbar: document.getElementById("reading-progressbar"),
+          readingProgressFill: document.getElementById("reading-progress-fill"),
+          autoPauseBanner: document.getElementById("autopause-banner"),
+          readingScrollTrack: document.getElementById("reading-scroll-track"),
+          readingSpacerTop: document.getElementById("reading-spacer-top"),
+          readingTextContainer: document.getElementById("reading-text-container"),
+          readingSpacerBottom: document.getElementById("reading-spacer-bottom"),
+          readingPauseBtn: document.getElementById("btn-reading-pause"),
+          readingSpeedSlider: document.getElementById("slider-reading-speed"),
+          readingSpeedLabel: document.getElementById("ui-reading-speed-label"),
+          readingSpeedVal: document.getElementById("reading-speed-val"),
+          readingMicIndicator: document.getElementById("reading-mic-indicator"),
+          readingExitBtn: document.getElementById("btn-reading-exit"),
+
+          resultStatusBadge: document.getElementById("result-status-badge"),
+          resultTopicTitle: document.getElementById("result-topic-title"),
+          resultEncouragement: document.getElementById("result-encouragement"),
+          metricRatioLabel: document.getElementById("ui-metric-ratio-label"),
+          metricTimeLabel: document.getElementById("ui-metric-time-label"),
+          resultRatioValue: document.getElementById("result-ratio-value"),
+          resultTimeValue: document.getElementById("result-time-value"),
+          resultMicOffNote: document.getElementById("result-mic-off-note"),
+          resultAgainBtn: document.getElementById("btn-result-again"),
+          resultTopicsBtn: document.getElementById("btn-result-topics"),
+
+          modalFiles: document.getElementById("modal-files"),
+          closeFilesBtn: document.getElementById("btn-close-files"),
+          fileTabsContainer: document.getElementById("file-tabs-container"),
+          codeViewerContent: document.getElementById("code-viewer-content"),
+          copyFileBtn: document.getElementById("btn-copy-file"),
+          copyFeedbackText: document.getElementById("copy-feedback-text"),
+
+          btnOpenRecordings: document.getElementById("btn-open-recordings"),
+          modalRecordings: document.getElementById("modal-recordings"),
+          btnCloseRecordings: document.getElementById("btn-close-recordings"),
+          modalRecordingsList: document.getElementById("modal-recordings-list"),
+          resultRecordingBox: document.getElementById("result-recording-box"),
+          btnPlayCurrentRec: document.getElementById("btn-play-current-rec"),
+          sliderRecProgress: document.getElementById("slider-rec-progress"),
+          playerTimeCurrent: document.getElementById("player-time-current"),
+          playerTimeDuration: document.getElementById("player-time-duration"),
+          savedRecordingsList: document.getElementById("saved-recordings-list"),
+          readingRecIndicator: document.getElementById("reading-rec-indicator"),
+          uiRecSectionTitle: document.getElementById("ui-rec-section-title"),
+          uiRecSavedBadge: document.getElementById("ui-rec-saved-badge"),
+          uiSavedRecTitle: document.getElementById("ui-saved-rec-title"),
+          modalRecTitle: document.getElementById("modal-rec-title"),
+          modalRecSubtitle: document.getElementById("modal-rec-subtitle")
+        };
+      }
+
+      bindEvents() {
+        if (this.dom.btnHomeMenu) {
+          this.dom.btnHomeMenu.addEventListener("click", () => {
+            this.selectVirtualFile(this.activeVirtualFile);
+            this.dom.modalFiles.classList.add("is-open");
+            this.dom.modalFiles.setAttribute("aria-hidden", "false");
+          });
+        }
+
+        if (this.dom.btnHeroQuickStart) {
+          this.dom.btnHeroQuickStart.addEventListener("click", () => {
+            this.openSetupForTopic(this.selectedTopic);
+          });
+        }
+
+        if (this.dom.statCardRecordings) {
+          this.dom.statCardRecordings.addEventListener("click", () => {
+            this.renderRecordingsUI();
+            this.dom.modalRecordings.classList.add("is-open");
+            this.dom.modalRecordings.setAttribute("aria-hidden", "false");
+          });
+        }
+
+        if (this.dom.navBtnHome) {
+          this.dom.navBtnHome.addEventListener("click", () => {
+            this.navigateTo("home");
+            this.updateBottomNavUI("home");
+          });
+        }
+
+        if (this.dom.navBtnTopics) {
+          this.dom.navBtnTopics.addEventListener("click", () => {
+            this.navigateTo("home");
+            this.updateBottomNavUI("topics");
+            if (this.dom.topicList) {
+              this.dom.topicList.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        }
+
+        if (this.dom.navBtnAction) {
+          this.dom.navBtnAction.addEventListener("click", () => {
+            this.openSetupForTopic(this.selectedTopic);
+          });
+        }
+
+        if (this.dom.navBtnVocab) {
+          this.dom.navBtnVocab.addEventListener("click", () => {
+            this.openVocabularyForTopic(this.selectedTopic);
+            this.updateBottomNavUI("vocab");
+          });
+        }
+
+        if (this.dom.navBtnProfile) {
+          this.dom.navBtnProfile.addEventListener("click", () => {
+            this.renderRecordingsUI();
+            this.dom.modalRecordings.classList.add("is-open");
+            this.dom.modalRecordings.setAttribute("aria-hidden", "false");
+            this.updateBottomNavUI("profile");
+          });
+        }
+
+        this.dom.langToggleBtn.addEventListener("click", () => {
+          this.lang = this.lang === "en" ? "uz" : "en";
+          localStorage.setItem("speakline_lang", this.lang);
+          this.applyTranslations();
+          this.renderHomeTopics();
+          this.updateSetupUI();
+          this.syncReadingControlsUI();
+        });
+
+        this.dom.setupBackBtn.addEventListener("click", () => {
+          if (this.isTransitioning) return;
+          this.navigateTo("home");
+        });
+
+        if (this.dom.btnOpenRecordings) {
+          this.dom.btnOpenRecordings.addEventListener("click", () => {
+            this.renderRecordingsUI();
+            this.dom.modalRecordings.classList.add("is-open");
+            this.dom.modalRecordings.setAttribute("aria-hidden", "false");
+          });
+        }
+
+        if (this.dom.btnCloseRecordings) {
+          this.dom.btnCloseRecordings.addEventListener("click", () => {
+            this.dom.modalRecordings.classList.remove("is-open");
+            this.dom.modalRecordings.setAttribute("aria-hidden", "true");
+          });
+        }
+
+        if (this.dom.modalRecordings) {
+          this.dom.modalRecordings.addEventListener("click", (e) => {
+            if (e.target === this.dom.modalRecordings) {
+              this.dom.modalRecordings.classList.remove("is-open");
+              this.dom.modalRecordings.setAttribute("aria-hidden", "true");
+            }
+          });
+        }
+
+        if (this.dom.setupSpeedSlider) {
+          this.dom.setupSpeedSlider.addEventListener("input", (e) => {
+            this.setSpeedWpm(parseInt(e.target.value, 10));
+          });
+        }
+
+        if (this.dom.readingSpeedSlider) {
+          this.dom.readingSpeedSlider.addEventListener("input", (e) => {
+            this.setSpeedWpm(parseInt(e.target.value, 10));
+          });
+        }
+
+        Object.entries(this.dom.speedBtns).forEach(([speedKey, btn]) => {
+          if (!btn) return;
+          btn.addEventListener("click", () => {
+            const wpm = parseInt(btn.dataset.wpm, 10) || 140;
+            this.setSpeedWpm(wpm);
+          });
+        });
+
+        let lastStartTap = 0;
+        this.dom.startReadingBtn.addEventListener("click", () => {
+          const now = Date.now();
+          if (now - lastStartTap < 600 || this.currentScreen !== "setup") return;
+          lastStartTap = now;
+          this.beginIntroFlow();
+        });
+
+        this.dom.readingPauseBtn.addEventListener("click", () => {
+          if (this.currentScreen !== "reading") return;
+          this.reader.toggleManualPause();
+          this.syncReadingControlsUI();
+        });
+
+        this.dom.readingExitBtn.addEventListener("click", () => {
+          if (this.currentScreen !== "reading" && this.currentScreen !== "intro") return;
+          this.exitReadingToHome();
+        });
+
+        this.dom.resultAgainBtn.addEventListener("click", () => {
+          if (this.isTransitioning) return;
+          this.openSetupForTopic(this.selectedTopic);
+        });
+
+        this.dom.resultTopicsBtn.addEventListener("click", () => {
+          if (this.isTransitioning) return;
+          this.navigateTo("home");
+        });
+
+        if (this.dom.levelTabs) {
+          this.dom.levelTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+              const lvl = tab.dataset.level;
+              if (!lvl || lvl === this.selectedLevel) return;
+              this.selectedLevel = lvl;
+              try {
+                localStorage.setItem("speakline_level", lvl);
+              } catch (e) {}
+              this.updateLevelTabsUI();
+              this.renderHomeTopics();
+            });
+          });
+        }
+
+        if (this.dom.btnVocabPlayAll) {
+          this.dom.btnVocabPlayAll.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.togglePlayAll();
+          });
+        }
+
+        if (this.dom.btnVocabPrev) {
+          this.dom.btnVocabPrev.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.prev();
+          });
+        }
+
+        if (this.dom.btnVocabNext) {
+          this.dom.btnVocabNext.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.next();
+          });
+        }
+
+        if (this.dom.vocabBackBtn) {
+          this.dom.vocabBackBtn.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.stop();
+            this.navigateTo("home");
+          });
+        }
+
+        if (this.dom.btnVocabReadText) {
+          this.dom.btnVocabReadText.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.stop();
+            this.openSetupForTopic(this.selectedTopic);
+          });
+        }
+
+        if (this.dom.btnVocabTopics) {
+          this.dom.btnVocabTopics.addEventListener("click", () => {
+            if (this.vocabSpeaker) this.vocabSpeaker.stop();
+            this.navigateTo("home");
+          });
+        }
+
+        window.addEventListener("keydown", (e) => {
+          if (this.dom.modalFiles.classList.contains("is-open")) {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              this.closeFilesModal();
+            }
+            return;
+          }
+
+          if (this.dom.modalRecordings && this.dom.modalRecordings.classList.contains("is-open")) {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              this.dom.modalRecordings.classList.remove("is-open");
+              this.dom.modalRecordings.setAttribute("aria-hidden", "true");
+            }
+            return;
+          }
+
+          if (this.currentScreen === "vocabulary") {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              if (this.vocabSpeaker) this.vocabSpeaker.stop();
+              this.navigateTo("home");
+            } else if (e.code === "Space") {
+              e.preventDefault();
+              if (this.vocabSpeaker) this.vocabSpeaker.togglePlayAll();
+            } else if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              if (this.vocabSpeaker) this.vocabSpeaker.prev();
+            } else if (e.key === "ArrowRight") {
+              e.preventDefault();
+              if (this.vocabSpeaker) this.vocabSpeaker.next();
+            }
+          }
+
+          if (this.currentScreen === "reading") {
+            if (e.code === "Space") {
+              e.preventDefault();
+              this.reader.toggleManualPause();
+              this.syncReadingControlsUI();
+            } else if (e.key === "Escape") {
+              e.preventDefault();
+              this.exitReadingToHome();
+            }
+          } else if (this.currentScreen === "intro" && e.key === "Escape") {
+            e.preventDefault();
+            this.exitReadingToHome();
+          }
+        });
+
+        document.addEventListener("visibilitychange", () => {
+          const isHidden = document.hidden;
+          if (this.currentScreen === "reading") {
+            this.reader.setTabPaused(isHidden);
+          }
+        });
+      }
+
+      getTodayDateKey() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      getTodayReadCount() {
+        try {
+          const raw = localStorage.getItem("speakline_daily");
+          if (!raw) return 0;
+          const parsed = JSON.parse(raw);
+          if (parsed.date === this.getTodayDateKey()) {
+            return Number(parsed.count) || 0;
+          }
+          return 0;
+        } catch (e) {
+          return 0;
+        }
+      }
+
+      incrementTodayReadCount() {
+        const today = this.getTodayDateKey();
+        const nextCount = this.getTodayReadCount() + 1;
+        try {
+          localStorage.setItem(
+            "speakline_daily",
+            JSON.stringify({ date: today, count: nextCount })
+          );
+        } catch (e) {}
+      }
+
+      getTopicProgressMap() {
+        try {
+          const raw = localStorage.getItem("speakline_progress");
+          return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          return {};
+        }
+      }
+
+      saveTopicAttempt(topicId, completed, speakingRatioPct) {
+        try {
+          const map = this.getTopicProgressMap();
+          const prev = map[topicId] || { completed: false, bestRatio: 0 };
+          map[topicId] = {
+            completed: prev.completed || completed,
+            bestRatio: Math.max(prev.bestRatio || 0, speakingRatioPct || 0)
+          };
+          localStorage.setItem("speakline_progress", JSON.stringify(map));
+        } catch (e) {}
+      }
+
+      applyTranslations() {
+        this.dom.appTitle.textContent = this.t("appTitle");
+        this.dom.todayCount.textContent = this.t("todayRead", this.getTodayReadCount());
+        this.dom.langToggleBtn.textContent = this.lang.toUpperCase();
+        this.dom.footerNote.textContent = this.t("footerNote");
+        this.dom.openFilesBtn.textContent = this.t("projectFilesBtn");
+
+        this.dom.setupBackBtn.textContent = this.t("back");
+        this.dom.speedLabel.textContent = this.t("readingSpeedLabel");
+        if (this.dom.speedBtns.slow) this.dom.speedBtns.slow.textContent = `80 (${this.t("speedSlow")})`;
+        if (this.dom.speedBtns.medium) this.dom.speedBtns.medium.textContent = `140 (${this.t("speedMedium")})`;
+        if (this.dom.speedBtns.fast) this.dom.speedBtns.fast.textContent = `190 (${this.t("speedFast")})`;
+        if (this.dom.speedBtns.max) this.dom.speedBtns.max.textContent = `250 (${this.t("speedMax")})`;
+        if (this.dom.speedTickMin) this.dom.speedTickMin.textContent = `60 (${this.t("speedSlow")})`;
+        if (this.dom.speedTickMax) this.dom.speedTickMax.textContent = `250 (${this.t("speedMax")})`;
+        if (this.dom.setupSpeedVal) this.dom.setupSpeedVal.textContent = `${this.selectedWpm} WPM`;
+        if (this.dom.readingSpeedLabel && this.dom.readingSpeedLabel.childNodes.length > 0) {
+          this.dom.readingSpeedLabel.childNodes[0].textContent = `${this.t("speedTitle")}: `;
+        }
+        this.dom.startReadingBtn.textContent = this.t("startBtn");
+        this.dom.setupHint.textContent = this.t("setupHint");
+
+        this.dom.autoPauseBanner.textContent = this.t("autoPauseMessage");
+        this.dom.readingExitBtn.textContent = this.t("exit");
+
+        this.dom.metricRatioLabel.textContent = this.t("speakingRatioLabel");
+        this.dom.metricTimeLabel.textContent = this.t("timeTakenLabel");
+        this.dom.resultMicOffNote.textContent = this.t("micOffResultNote");
+        this.dom.resultTopicsBtn.textContent = this.t("chooseAnotherBtn");
+
+        if (this.dom.uiRecSectionTitle) this.dom.uiRecSectionTitle.textContent = this.t("voiceRecordingTitle");
+        if (this.dom.uiRecSavedBadge) this.dom.uiRecSavedBadge.textContent = this.t("savedBadge");
+        if (this.dom.uiSavedRecTitle) this.dom.uiSavedRecTitle.textContent = this.t("recentRecordingsTitle");
+        if (this.dom.modalRecTitle) this.dom.modalRecTitle.textContent = this.t("modalRecTitle");
+        if (this.dom.modalRecSubtitle) this.dom.modalRecSubtitle.textContent = this.t("modalRecSubtitle");
+        if (this.dom.readingRecIndicator) this.dom.readingRecIndicator.textContent = "● " + this.t("recActiveNote");
+
+        if (this.dom.tabNameA1) this.dom.tabNameA1.textContent = this.t("levelA1Name");
+        if (this.dom.tabNameA2) this.dom.tabNameA2.textContent = this.t("levelA2Name");
+        if (this.dom.tabNameB1) this.dom.tabNameB1.textContent = this.t("levelB1Name");
+
+        if (this.dom.vocabBackBtn) this.dom.vocabBackBtn.textContent = this.t("back");
+        if (this.dom.vocabTopicDesc) this.dom.vocabTopicDesc.textContent = this.t("vocabTopicSubtitle");
+        if (this.dom.btnVocabPlayAll) {
+          const isPlaying = this.vocabSpeaker && this.vocabSpeaker.isPlaying && this.vocabSpeaker.isAutoplay;
+          this.dom.btnVocabPlayAll.textContent = isPlaying ? this.t("pauseWords") : this.t("playAllWords");
+        }
+        if (this.dom.btnVocabReadText) this.dom.btnVocabReadText.textContent = this.t("readTopicBtn");
+        if (this.dom.btnVocabTopics) this.dom.btnVocabTopics.textContent = this.t("chooseAnotherBtn");
+
+        if (this.currentScreen === "vocabulary" && this.selectedTopic) {
+          if (this.dom.vocabLevelBadge) {
+            const levelKey = "level" + (this.selectedTopic.level || "a1").toUpperCase();
+            this.dom.vocabLevelBadge.textContent = this.t(levelKey);
+          }
+        }
+
+        this.renderRecordingsUI();
+      }
+
+      updateBottomNavUI(activeTab) {
+        const navMap = {
+          home: this.dom.navBtnHome,
+          topics: this.dom.navBtnTopics,
+          vocab: this.dom.navBtnVocab,
+          profile: this.dom.navBtnProfile
+        };
+        Object.entries(navMap).forEach(([key, btn]) => {
+          if (!btn) return;
+          btn.classList.toggle("is-active", key === activeTab);
+        });
+      }
+
+      updateLevelTabsUI() {
+        if (!this.dom.levelTabs) return;
+        this.dom.levelTabs.forEach((tab) => {
+          const isActive = tab.dataset.level === this.selectedLevel;
+          tab.classList.toggle("is-active", isActive);
+          tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+      }
+
+      renderHomeTopics() {
+        const todayCount = this.getTodayReadCount();
+        if (this.dom.todayCount) this.dom.todayCount.textContent = this.t("todayRead", todayCount);
+        if (this.dom.todayCountNum) this.dom.todayCountNum.textContent = String(todayCount);
+        if (this.dom.savedCountNum) {
+          const recCount = typeof VoiceStorage !== "undefined" && VoiceStorage.getAll ? VoiceStorage.getAll().length : 0;
+          this.dom.savedCountNum.textContent = String(recCount);
+        }
+
+        const progressMap = this.getTopicProgressMap();
+        this.dom.topicList.innerHTML = "";
+
+        // Filter topics strictly according to user selected level (a1, a2, b1)
+        const filteredTopics = TOPICS.filter((t) => t.level === this.selectedLevel);
+        const listToRender = filteredTopics.length > 0 ? filteredTopics : TOPICS;
+
+        if (this.dom.topicCounter) {
+          this.dom.topicCounter.textContent = `${listToRender.length} ${this.lang === "uz" ? "ta mavzu" : "Topics"}`;
+        }
+
+        const pastelThemes = ["theme-lavender", "theme-mint", "theme-peach", "theme-blue", "theme-rose"];
+
+        listToRender.forEach((topic, index) => {
+          const li = document.createElement("li");
+          const themeClass = pastelThemes[index % pastelThemes.length];
+          li.className = `topic-item ${themeClass}`;
+
+          const cardBody = document.createElement("div");
+          cardBody.className = "topic-card-body";
+
+          // Top Row: Category Tag on left, Rating / Speed Badge on right (Matching Screen 2)
+          const topRow = document.createElement("div");
+          topRow.className = "topic-card-top-row";
+
+          const levelTag = document.createElement("span");
+          levelTag.className = "topic-level-badge";
+          levelTag.textContent = `${(topic.level || "a1").toUpperCase()} • ${topic.title.split(" ")[0]}`;
+
+          const ratingBadge = document.createElement("span");
+          ratingBadge.className = "topic-rating-badge";
+          ratingBadge.innerHTML = `<span>★</span> 4.9`;
+
+          topRow.appendChild(levelTag);
+          topRow.appendChild(ratingBadge);
+
+          const titleEl = document.createElement("h2");
+          titleEl.className = "topic-card-title";
+          titleEl.textContent = topic.title;
+
+          const descEl = document.createElement("p");
+          descEl.className = "topic-card-desc";
+          descEl.textContent = topic.description;
+
+          cardBody.appendChild(topRow);
+          cardBody.appendChild(titleEl);
+          cardBody.appendChild(descEl);
+
+          const record = progressMap[topic.id];
+          if (record && record.completed) {
+            const statusEl = document.createElement("p");
+            statusEl.className = "topic-card-status";
+            statusEl.innerHTML = `✓ ${this.t("completedCardStatus", record.bestRatio)}`;
+            cardBody.appendChild(statusEl);
+          }
+
+          // Two distinct action buttons: Read Text & Vocabulary
+          const actionsDiv = document.createElement("div");
+          actionsDiv.className = "topic-card-actions";
+
+          const readBtn = document.createElement("button");
+          readBtn.type = "button";
+          readBtn.className = "btn btn-sm btn-primary action-read-btn";
+          readBtn.innerHTML = `${this.t("readBtn")} &rarr;`;
+          readBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            this.openSetupForTopic(topic);
+          });
+
+          const vocabBtn = document.createElement("button");
+          vocabBtn.type = "button";
+          vocabBtn.className = "btn btn-sm action-vocab-btn";
+          vocabBtn.textContent = this.t("vocabBtn");
+          vocabBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            this.openVocabularyForTopic(topic);
+          });
+
+          actionsDiv.appendChild(readBtn);
+          actionsDiv.appendChild(vocabBtn);
+          cardBody.appendChild(actionsDiv);
+
+          li.appendChild(cardBody);
+          this.dom.topicList.appendChild(li);
+        });
+      }
+
+      openVocabularyForTopic(topic) {
+        if (!topic) return;
+        this.selectedTopic = topic;
+        if (this.vocabSpeaker) {
+          this.vocabSpeaker.stop();
+        }
+
+        // Setup Vocabulary Screen UI
+        if (this.dom.vocabTopicTitle) {
+          this.dom.vocabTopicTitle.textContent = topic.title;
+        }
+        if (this.dom.vocabLevelBadge) {
+          const levelKey = "level" + (topic.level || "a1").toUpperCase();
+          this.dom.vocabLevelBadge.textContent = this.t(levelKey);
+        }
+        if (this.dom.vocabTopicDesc) {
+          this.dom.vocabTopicDesc.textContent = this.t("vocabTopicSubtitle");
+        }
+        if (this.dom.vocabStatusText) {
+          this.dom.vocabStatusText.textContent = this.t("readyStatus");
+        }
+        if (this.dom.vocabStatusPulse) {
+          this.dom.vocabStatusPulse.style.display = "none";
+        }
+        if (this.dom.btnVocabPlayAll) {
+          this.dom.btnVocabPlayAll.textContent = this.t("playAllWords");
+        }
+
+        // Render 10 vocabulary words
+        const words = topic.vocabulary || [];
+        this.dom.vocabWordsList.innerHTML = "";
+
+        words.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.className = "vocab-word-item";
+          li.dataset.index = String(index);
+
+          const card = document.createElement("div");
+          card.className = "vocab-word-card";
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", `${item.en}, ${item.uz}`);
+
+          const left = document.createElement("div");
+          left.className = "vocab-word-left";
+
+          const idxEl = document.createElement("span");
+          idxEl.className = "vocab-word-index";
+          idxEl.textContent = String(index + 1).padStart(2, "0");
+
+          const content = document.createElement("div");
+          content.className = "vocab-word-content";
+
+          const enEl = document.createElement("span");
+          enEl.className = "vocab-word-en";
+          enEl.textContent = item.en;
+
+          const uzEl = document.createElement("span");
+          uzEl.className = "vocab-word-uz";
+          uzEl.textContent = item.uz;
+
+          content.appendChild(enEl);
+          content.appendChild(uzEl);
+          left.appendChild(idxEl);
+          left.appendChild(content);
+
+          const action = document.createElement("div");
+          action.className = "vocab-word-action";
+
+          const speakBtn = document.createElement("button");
+          speakBtn.type = "button";
+          speakBtn.className = "btn btn-sm btn-word-speak";
+          speakBtn.textContent = this.t("listenWordBtn");
+
+          action.appendChild(speakBtn);
+
+          card.appendChild(left);
+          card.appendChild(action);
+          li.appendChild(card);
+
+          const playThisWord = (e) => {
+            e.stopPropagation();
+            if (this.vocabSpeaker) {
+              this.vocabSpeaker.playWord(index, false);
+            }
+          };
+
+          card.addEventListener("click", playThisWord);
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              playThisWord(e);
+            }
+          });
+
+          this.dom.vocabWordsList.appendChild(li);
+        });
+
+        if (this.vocabSpeaker) {
+          this.vocabSpeaker.setWords(words);
+        }
+        this.updateVocabCounter(0, words.length);
+        this.navigateTo("vocabulary");
+      }
+
+      updateVocabCounter(index, total) {
+        if (!this.dom.vocabWordCounter) return;
+        const tot = total !== undefined ? total : (this.selectedTopic && this.selectedTopic.vocabulary ? this.selectedTopic.vocabulary.length : 10);
+        this.dom.vocabWordCounter.textContent = this.t("wordCounter", index + 1, tot);
+      }
+
+      highlightVocabWord(index, isSpeaking) {
+        if (!this.dom.vocabWordsList) return;
+        const items = this.dom.vocabWordsList.querySelectorAll(".vocab-word-card");
+        items.forEach((card, idx) => {
+          if (idx === index) {
+            card.classList.add("is-active");
+            card.classList.toggle("is-speaking", isSpeaking);
+            if (isSpeaking) {
+              try {
+                card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+              } catch (e) {}
+            }
+          } else {
+            card.classList.remove("is-active");
+            card.classList.remove("is-speaking");
+          }
+        });
+      }
+
+      openSetupForTopic(topic) {
+        this.selectedTopic = topic;
+        this.updateSetupUI();
+        this.navigateTo("setup");
+      }
+
+      updateSetupUI() {
+        if (!this.selectedTopic) return;
+        this.dom.setupTopicTitle.textContent = this.selectedTopic.title;
+        this.dom.setupTopicDesc.textContent = this.selectedTopic.description;
+        this.setSpeedWpm(this.selectedWpm);
+      }
+
+      setSpeedWpm(wpm) {
+        const val = Math.max(60, Math.min(250, Math.round(wpm || 140)));
+        this.selectedWpm = val;
+        try {
+          localStorage.setItem("speakline_wpm", String(val));
+        } catch (e) {}
+
+        if (this.dom.setupSpeedSlider) this.dom.setupSpeedSlider.value = val;
+        if (this.dom.readingSpeedSlider) this.dom.readingSpeedSlider.value = val;
+        if (this.dom.setupSpeedVal) this.dom.setupSpeedVal.textContent = `${val} WPM`;
+        if (this.dom.readingSpeedVal) this.dom.readingSpeedVal.textContent = String(val);
+
+        if (this.dom.speedBtns) {
+          Object.values(this.dom.speedBtns).forEach((btn) => {
+            if (!btn) return;
+            const btnWpm = parseInt(btn.dataset.wpm, 10);
+            if (btnWpm === val) {
+              btn.classList.add("is-selected");
+              btn.setAttribute("aria-pressed", "true");
+            } else {
+              btn.classList.remove("is-selected");
+              btn.setAttribute("aria-pressed", "false");
+            }
+          });
+        }
+
+        if (this.reader) {
+          this.reader.setSpeed(val);
+        }
+      }
+
+      navigateTo(targetScreen) {
+        if (this.currentScreen === targetScreen) return;
+        if (this.currentScreen === "vocabulary" && targetScreen !== "vocabulary") {
+          if (this.vocabSpeaker) this.vocabSpeaker.stop();
+        }
+        this.isTransitioning = true;
+
+        const prevEl = this.dom.screens[this.currentScreen];
+        const nextEl = this.dom.screens[targetScreen];
+        this.currentScreen = targetScreen;
+
+        if (prevEl) {
+          prevEl.classList.remove("is-active");
+          prevEl.classList.remove("is-visible");
+        }
+
+        if (nextEl) {
+          nextEl.classList.add("is-visible");
+          void nextEl.offsetWidth;
+          nextEl.classList.add("is-active");
+        }
+
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          this.isTransitioning = false;
+        }, 250);
+      }
+
+      clearIntroTimers() {
+        this.countdownTimerIds.forEach((id) => clearTimeout(id));
+        this.countdownTimerIds = [];
+      }
+
+      async beginIntroFlow() {
+        this.clearIntroTimers();
+        this.dom.introPromptText.textContent = this.t("introVoiceLine");
+        this.dom.introCountdownNum.textContent = "";
+        this.dom.introCalibrationNote.textContent = this.t("calibratingMic");
+
+        this.navigateTo("intro");
+
+        const micGranted = await this.mic.requestAccess();
+        if (this.currentScreen !== "intro") return;
+
+        if (!micGranted) {
+          this.dom.introCalibrationNote.textContent = this.t("micUnavailableNote");
+        }
+
+        await this.audio.playIntroVoice("Speak fast and clear");
+        if (this.currentScreen !== "intro") return;
+
+        this.mic.startCalibration();
+        const sampleInterval = setInterval(() => {
+          if (this.currentScreen !== "intro") {
+            clearInterval(sampleInterval);
+            return;
+          }
+          this.mic.recordCalibrationSample();
+        }, 90);
+        this.countdownTimerIds.push(sampleInterval);
+
+        const steps = ["3", "2", "1"];
+        steps.forEach((numStr, idx) => {
+          const timerId = setTimeout(() => {
+            if (this.currentScreen !== "intro") return;
+            this.dom.introCountdownNum.textContent = numStr;
+          }, idx * 950);
+          this.countdownTimerIds.push(timerId);
+        });
+
+        const launchTimerId = setTimeout(() => {
+          clearInterval(sampleInterval);
+          if (this.currentScreen !== "intro") return;
+          this.mic.finishCalibration();
+          this.startReadingMode();
+        }, steps.length * 950);
+        this.countdownTimerIds.push(launchTimerId);
+      }
+
+      startReadingMode() {
+        this.navigateTo("reading");
+        this.reader.prepare(this.selectedTopic.text, this.selectedWpm);
+        this.syncReadingControlsUI(false);
+
+        // Start Dictaphone Voice Recording if microphone stream is available
+        if (this.mic && this.mic.stream) {
+          this.recorder.start(this.mic.stream);
+          if (this.dom.readingRecIndicator) {
+            this.dom.readingRecIndicator.style.display = "inline-flex";
+          }
+        } else if (this.dom.readingRecIndicator) {
+          this.dom.readingRecIndicator.style.display = "none";
+        }
+
+        requestAnimationFrame(() => {
+          this.reader.recalculateMetrics();
+          this.reader.start();
+        });
+      }
+
+      syncReadingControlsUI(speakingNow = false) {
+        this.dom.readingPauseBtn.textContent = this.reader.isManualPaused
+          ? this.t("resume")
+          : this.t("pause");
+
+        if (this.dom.readingSpeedSlider) {
+          this.dom.readingSpeedSlider.value = this.selectedWpm;
+        }
+        if (this.dom.readingSpeedVal) {
+          this.dom.readingSpeedVal.textContent = String(this.selectedWpm);
+        }
+
+        if (!this.mic.isAvailable) {
+          this.dom.readingMicIndicator.textContent = this.t("micOffLabel");
+        } else if (speakingNow) {
+          this.dom.readingMicIndicator.textContent = this.t("micActiveSpeaking");
+        } else {
+          this.dom.readingMicIndicator.textContent = this.t("micActiveListening");
+        }
+      }
+
+      exitReadingToHome() {
+        this.clearIntroTimers();
+        if ("speechSynthesis" in window) {
+          try { window.speechSynthesis.cancel(); } catch (e) {}
+        }
+        if (this.vocabSpeaker) {
+          this.vocabSpeaker.stop();
+        }
+        if (this.recorder && this.recorder.isRecording) {
+          this.recorder.stop();
+        }
+        if (this.playbackAudio) {
+          this.playbackAudio.pause();
+          this.resetPlaybackUI();
+        }
+        this.reader.stop();
+        this.mic.cleanup();
+        this.renderHomeTopics();
+        this.renderRecordingsUI();
+        this.navigateTo("home");
+      }
+
+      async handleReadingFinished(stats) {
+        let savedRec = null;
+        if (this.recorder && this.recorder.isRecording) {
+          const recResult = await this.recorder.stop();
+          if (recResult && recResult.dataUrl) {
+            savedRec = VoiceStorage.save({
+              topicId: this.selectedTopic.id,
+              topicTitle: this.selectedTopic.title,
+              durationSec: recResult.durationSec,
+              dataUrl: recResult.dataUrl
+            });
+          }
+        }
+
+        this.mic.cleanup();
+        this.incrementTodayReadCount();
+
+        const { micUsed, speakingRatioPct, durationSeconds } = stats;
+        const isCompleted = micUsed ? speakingRatioPct >= 60 : false;
+
+        if (micUsed) {
+          this.saveTopicAttempt(this.selectedTopic.id, isCompleted, speakingRatioPct);
+        }
+
+        this.dom.resultTopicTitle.textContent = this.selectedTopic.title;
+        this.dom.resultTimeValue.textContent = this.formatDuration(durationSeconds);
+
+        if (!micUsed) {
+          this.dom.resultStatusBadge.textContent = this.t("completedBadge");
+          this.dom.resultEncouragement.textContent = this.t("encouragementMicOff");
+          this.dom.resultRatioValue.textContent = "—";
+          this.dom.resultMicOffNote.style.display = "block";
+          this.dom.resultAgainBtn.textContent = this.t("readAgainBtn");
+        } else if (isCompleted) {
+          this.dom.resultStatusBadge.textContent = this.t("completedBadge");
+          this.dom.resultEncouragement.textContent = this.t("encouragementSuccess");
+          this.dom.resultRatioValue.textContent = `${speakingRatioPct}%`;
+          this.dom.resultMicOffNote.style.display = "none";
+          this.dom.resultAgainBtn.textContent = this.t("readAgainBtn");
+        } else {
+          this.dom.resultStatusBadge.textContent = this.t("tryAgainBadge");
+          this.dom.resultEncouragement.textContent = this.t("encouragementTryAgain");
+          this.dom.resultRatioValue.textContent = `${speakingRatioPct}%`;
+          this.dom.resultMicOffNote.style.display = "none";
+          this.dom.resultAgainBtn.textContent = this.t("tryAgainBtn");
+        }
+
+        this.renderHomeTopics();
+        this.renderRecordingsUI();
+        this.navigateTo("result");
+      }
+
+
+      setupPlaybackAudio() {
+        this.playbackAudio.addEventListener("timeupdate", () => {
+          if (!this.playbackAudio.duration) return;
+          const pct = (this.playbackAudio.currentTime / this.playbackAudio.duration) * 100;
+          if (this.dom.sliderRecProgress) {
+            this.dom.sliderRecProgress.value = pct;
+          }
+          if (this.dom.playerTimeCurrent) {
+            this.dom.playerTimeCurrent.textContent = this.formatDuration(Math.floor(this.playbackAudio.currentTime));
+          }
+        });
+
+        this.playbackAudio.addEventListener("ended", () => {
+          this.resetPlaybackUI();
+        });
+
+        this.playbackAudio.addEventListener("pause", () => {
+          this.updatePlaybackPlayButtons(false);
+        });
+
+        this.playbackAudio.addEventListener("play", () => {
+          this.updatePlaybackPlayButtons(true);
+        });
+
+        if (this.dom.sliderRecProgress) {
+          this.dom.sliderRecProgress.addEventListener("input", (e) => {
+            if (this.playbackAudio.duration) {
+              this.playbackAudio.currentTime = (parseFloat(e.target.value) / 100) * this.playbackAudio.duration;
+            }
+          });
+        }
+
+        if (this.dom.btnPlayCurrentRec) {
+          this.dom.btnPlayCurrentRec.addEventListener("click", () => {
+            const list = VoiceStorage.getAll();
+            if (list.length === 0) return;
+            const latest = list[list.length - 1];
+            this.togglePlayRecording(latest.id, latest.dataUrl);
+          });
+        }
+      }
+
+      togglePlayRecording(id, dataUrl) {
+        if (this.currentlyPlayingId === id && !this.playbackAudio.paused) {
+          this.playbackAudio.pause();
+          return;
+        }
+
+        if (this.currentlyPlayingId !== id) {
+          this.currentlyPlayingId = id;
+          this.playbackAudio.src = dataUrl;
+        }
+
+        this.playbackAudio.play().catch((err) => console.warn("Audio playback error:", err));
+      }
+
+      resetPlaybackUI() {
+        this.currentlyPlayingId = null;
+        if (this.dom.sliderRecProgress) this.dom.sliderRecProgress.value = 0;
+        if (this.dom.playerTimeCurrent) this.dom.playerTimeCurrent.textContent = "0:00";
+        this.updatePlaybackPlayButtons(false);
+      }
+
+      updatePlaybackPlayButtons(isPlaying) {
+        if (this.dom.btnPlayCurrentRec) {
+          const list = VoiceStorage.getAll();
+          const latestId = list.length > 0 ? list[list.length - 1].id : null;
+          if (this.currentlyPlayingId === latestId && isPlaying) {
+            this.dom.btnPlayCurrentRec.textContent = this.t("pause");
+          } else {
+            this.dom.btnPlayCurrentRec.textContent = this.t("play");
+          }
+        }
+
+        document.querySelectorAll(".saved-rec-btn-play").forEach((btn) => {
+          const btnId = btn.dataset.recId;
+          if (btnId === this.currentlyPlayingId && isPlaying) {
+            btn.textContent = this.t("pause");
+          } else {
+            btn.textContent = this.t("play");
+          }
+        });
+      }
+
+      renderRecordingsUI() {
+        const list = VoiceStorage.getAll();
+
+        if (this.dom.btnOpenRecordings) {
+          this.dom.btnOpenRecordings.textContent = this.t("recordingsBtn", list.length);
+        }
+
+        if (this.dom.resultRecordingBox) {
+          if (list.length === 0) {
+            this.dom.resultRecordingBox.style.display = "none";
+          } else {
+            this.dom.resultRecordingBox.style.display = "flex";
+            const latest = list[list.length - 1];
+            if (this.dom.playerTimeDuration) {
+              this.dom.playerTimeDuration.textContent = this.formatDuration(latest.durationSec);
+            }
+          }
+        }
+
+        const renderListToElement = (ulEl) => {
+          if (!ulEl) return;
+          ulEl.innerHTML = "";
+          if (list.length === 0) {
+            const emptyLi = document.createElement("li");
+            emptyLi.style.fontSize = "0.8125rem";
+            emptyLi.style.color = "var(--text-secondary)";
+            emptyLi.style.padding = "8px 0";
+            emptyLi.textContent = this.t("noRecordings");
+            ulEl.appendChild(emptyLi);
+            return;
+          }
+
+          [...list].reverse().forEach((rec) => {
+            const li = document.createElement("li");
+            li.className = "saved-rec-item";
+
+            const infoDiv = document.createElement("div");
+            infoDiv.className = "saved-rec-info";
+
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "saved-rec-title";
+            titleSpan.textContent = rec.topicTitle;
+
+            const metaSpan = document.createElement("span");
+            metaSpan.className = "saved-rec-meta";
+            metaSpan.textContent = `${rec.formattedDate} • ${this.formatDuration(rec.durationSec)}`;
+
+            infoDiv.appendChild(titleSpan);
+            infoDiv.appendChild(metaSpan);
+
+            const actionsDiv = document.createElement("div");
+            actionsDiv.className = "saved-rec-actions";
+
+            const playBtn = document.createElement("button");
+            playBtn.type = "button";
+            playBtn.className = "btn saved-rec-btn saved-rec-btn-play";
+            playBtn.dataset.recId = rec.id;
+            playBtn.textContent = (this.currentlyPlayingId === rec.id && !this.playbackAudio.paused)
+              ? this.t("pause")
+              : this.t("play");
+            playBtn.addEventListener("click", () => {
+              this.togglePlayRecording(rec.id, rec.dataUrl);
+            });
+
+            const delBtn = document.createElement("button");
+            delBtn.type = "button";
+            delBtn.className = "btn saved-rec-btn";
+            delBtn.textContent = this.t("delete");
+            delBtn.addEventListener("click", () => {
+              if (this.currentlyPlayingId === rec.id) {
+                this.playbackAudio.pause();
+                this.resetPlaybackUI();
+              }
+              VoiceStorage.delete(rec.id);
+              this.renderRecordingsUI();
+            });
+
+            actionsDiv.appendChild(playBtn);
+            actionsDiv.appendChild(delBtn);
+
+            li.appendChild(infoDiv);
+            li.appendChild(actionsDiv);
+            ulEl.appendChild(li);
+          });
+        };
+
+        renderListToElement(this.dom.savedRecordingsList);
+        renderListToElement(this.dom.modalRecordingsList);
+      }
+
+      formatDuration(totalSeconds) {
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        if (mins === 0) return `${secs}s`;
+        return `${mins}m ${String(secs).padStart(2, "0")}s`;
+      }
+
+      initFileInspector() {
+        const readmeContent = `# Speakline
+
+A minimalist, distraction-free English speaking-practice teleprompter built with vanilla HTML, CSS, and JavaScript. No frameworks, no build step, and no backend.`;
+
+        const standaloneIndexHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speakline</title>
+</head>
+<body></body>
+</html>`;
+
+        this.virtualFiles = {
+          "README.md": readmeContent,
+          "index.html": standaloneIndexHtml,
+          "css/style.css": document.getElementById("speakline-stylesheet").textContent.trim(),
+          "js/strings.js": document.getElementById("script-strings").textContent.trim(),
+          "js/topics.js": document.getElementById("script-topics").textContent.trim(),
+          "js/audio.js": document.getElementById("script-audio").textContent.trim(),
+          "js/mic.js": document.getElementById("script-mic").textContent.trim(),
+          "js/reader.js": document.getElementById("script-reader").textContent.trim(),
+          "js/vocabulary.js": document.getElementById("script-vocabulary").textContent.trim(),
+          "js/app.js": document.getElementById("script-app").textContent.trim()
+        };
+
+        this.activeVirtualFile = "README.md";
+
+        Object.keys(this.virtualFiles).forEach((filename) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn file-tab-btn";
+          btn.textContent = filename;
+          btn.addEventListener("click", () => this.selectVirtualFile(filename));
+          this.dom.fileTabsContainer.appendChild(btn);
+        });
+
+        this.dom.openFilesBtn.addEventListener("click", () => {
+          this.selectVirtualFile(this.activeVirtualFile);
+          this.dom.modalFiles.classList.add("is-open");
+          this.dom.modalFiles.setAttribute("aria-hidden", "false");
+        });
+
+        this.dom.closeFilesBtn.addEventListener("click", () => {
+          this.closeFilesModal();
+        });
+
+        this.dom.copyFileBtn.addEventListener("click", () => {
+          this.copyActiveFileContent();
+        });
+      }
+
+      closeFilesModal() {
+        this.dom.modalFiles.classList.remove("is-open");
+        this.dom.modalFiles.setAttribute("aria-hidden", "true");
+        this.dom.copyFeedbackText.textContent = "";
+      }
+
+      selectVirtualFile(filename) {
+        this.activeVirtualFile = filename;
+        this.dom.codeViewerContent.textContent = this.virtualFiles[filename] || "";
+        this.dom.copyFeedbackText.textContent = "";
+        Array.from(this.dom.fileTabsContainer.children).forEach((btn) => {
+          if (btn.textContent === filename) {
+            btn.classList.add("is-selected");
+          } else {
+            btn.classList.remove("is-selected");
+          }
+        });
+      }
+
+      copyActiveFileContent() {
+        const text = this.virtualFiles[this.activeVirtualFile] || "";
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          this.dom.copyFeedbackText.textContent = `Copied ${this.activeVirtualFile} to clipboard.`;
+        } catch (err) {
+          this.dom.copyFeedbackText.textContent = "Unable to copy automatically.";
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      window.speaklineApp = new SpeaklineApp();
+    });
+  </script>
+</body>
+</html>
