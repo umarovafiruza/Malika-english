@@ -1,54 +1,49 @@
-# 🎓 Speakline — English Speaking Practice & Teleprompter
+# Speakline — Minimalist English Speaking Practice & Teleprompter
 
-**Speakline** — Ingliz tili nutqini oshirish, teleprompter orqali matnlarni ravon o'qish, diktofon orqali o'z ovozini yozib olib tahlil qilish hamda har bir mavzu bo'yicha 10 tadan qiyin so'zlarni diktor yordamida tinglab o'rganish uchun mo'ljallangan zamonaviy EdTech veb-ilovasi.
+**Speakline** — Ingliz tili nutqini (speaking fluency) rivojlantirish uchun mo'ljallangan minimalist va estetik veb-ilova.
 
-Ilova dizayni zamonaviy **Chegg / Duolingo / iOS** mobil ilovalari estetikasida (pastel ranglar, yorqin to'q sariq aksentlar, suzuvchi navigatsiya paneli) yaratilgan.
+Saytga kirgan foydalanuvchiga 10 ta hissiy va motivatsion mavzu tanlash imkoniyati beriladi. Mavzu tanlanganda ayol diktor **"Speak fast and clear"** jumlasini o'qiydi va matn ko'z fokus chizig'i bo'ylab to'xtovsiz, silliq (smooth) yuqoriga harakatlanishni boshlaydi.
 
 ---
 
 ## ✨ Asosiy Imkoniyatlar
 
-1. **CEFR Darajalari (A1, A2, B1):**
-   - Ilovaga kirish bilanoq yuqorida `A1 • Beginner`, `A2 • Elementary`, `B1 • Intermediate` darajalari ko'rinadi.
-   - Tanlangan darajaga mos mavzular avtomatik filtrlanadi va saqlanib qoladi.
+1. **Sof Oq va Minimalist Dizayn:**
+   - Hech qanday keraksiz emojilar yoki axmoqona piktogrammalarsiz, toza Apple/Substack editorial tipografiyasi.
+   - Yuqori kontrastli matnlar, qulay bo'shliqlar va to'liq Responsive dizayn (mobil, planshet, kompyuter).
 
-2. **Teleprompter (Matnni 4 so'zlik qatorda o'qish):**
-   - Matn har bir qatorda aniq 4 ta so'zdan iborat qilib formatlangan.
-   - O'qish tezligi 60 dan 250 WPM gacha silliq boshqariladi (Slider va 80, 140, 190, 250 tezlik tugmalari).
-   - O'qilayotgan faol qator yuqori kontrastda yorishadi, boshqa qatorlar esa xiralashtiriladi.
+2. **10 Ta Hissiy & Motivatsion Mavzular (A1, A2, B1):**
+   - Matnlar insonga dalda beradigan, siqilganda kirib o'qiydigan va to'g'ridan-to'g'ri kitobxonga ("You") murojaat qiladigan qilib yozilgan.
+   - Har bir qator aniq **4 ta so'zdan** iborat bo'lib, ko'z va nutq ritmi uchun qulay kadansni ta'minlaydi.
 
-3. **Ovoz Yozish (Diktofon & LocalStorage):**
-   - Foydalanuvchi matnni o'qiyotganida ovozi brauzerning `MediaRecorder` orqali yozib olinadi.
-   - Yozib olingan ovozlar qurilmaning `localStorage` xotirasida saqlanadi.
-   - Maksimal 3 ta audio saqlanadi, yangi yozuv qo'shilganda eng eskisi avtomatik o'chiriladi (FIFO navbati).
-   - Saqlangan yozuvlarni pleyer orqali istalgan payt eshitish yoki o'chirish mumkin.
+3. **To'xtovsiz va Silliq Teleprompter (Continuous Linear Scroll):**
+   - Qatorma-qator yoki so'zma-so'z sakrashlar butunlay olib tashlangan.
+   - Hardware-accelerated GPU rendering (`translate3d` va `requestAnimationFrame`) orqali 60 FPS silliqlikda bir maromda yuqoriga oqib boradi.
+   - Ko'z qaratilishi kerak bo'lgan joyda nozik **gorizontal fokus chizig'i** mavjud.
 
-4. **Lug'at (Vocabulary) & 2-Siklli Ovozli Diktant:**
-   - Har bir mavzuda matndan olingan 10 tadan qiyin so'z va ularning aniq o'zbekcha tarjimasi (Jami 100 ta so'z).
-   - Diktor har bir so'zni **2 martadan** aytib beradi:
-     - **1-sikl:** `[Inglizcha so'z]` $\rightarrow$ 400ms $\rightarrow$ `[O'zbekcha tarjimasi]`
-     - *(800ms oraliq pauza)*
-     - **2-sikl:** `[Inglizcha so'z]` $\rightarrow$ 400ms $\rightarrow$ `[O'zbekcha tarjimasi]`
-     - *(1.2s oraliqdan so'ng keyingi so'zga o'tish)*
-   - "Barchasini tinglash" (Autoplay) yoki istalgan so'zni bittalab bosib eshitish imkoniyati.
+4. **Kengaytirilgan Tezlik Sozlamasi (Maksimal 260 WPM):**
+   - 60 dan 260 WPM gacha bo'lgan tezlik slayderi (presets: 80, 140, 200, 260 WPM).
+   - O'qish jarayonining o'zida ham pastki suzuvchi paneldan tezlikni o'zgartirish yoki bir harakatda to'xtatish (pause) mumkin.
 
-5. **Ikki Tilli Interfeys (EN / UZ):**
-   - Inglizcha va O'zbekcha tillarga birgina tugma orqali lahzada almashish.
+5. **"Speak fast and clear" Ovozli Start & Diktofon:**
+   - Boshlash tugmasi bosilganda yoqimli ayol ovozi "Speak fast and clear" deydi.
+   - O'qish paytida ovozni yozib olib, yakunda o'z nutqini eshitib tekshirish imkoniyati (MediaRecorder).
+
+6. **Har Bir Mavzu Bo'yicha Lug'at (Key Words):**
+   - 10 tadan eng muhim so'zlar va ularning o'zbekcha tarjimasi, bosilganda to'g'ri inglizcha talaffuz eshittiriladi.
 
 ---
 
 ## 🚀 Ishga Tushirish
 
-### 1-usul: Node.js server orqali
+### Node.js server orqali:
 ```bash
-npm start
-# yoki
 node server.js
 ```
 Brauzerda oching: `http://localhost:3000`
 
-### 2-usul: To'g'ridan-to'g'ri brauzerda (Static)
-Hech qanday qo'shimcha o'rnatishlarsiz `index.html` yoki `speakline_english_speaking_practice.html` faylini istalgan brauzerda ochish kifoya.
+### To'g'ridan-to'g'ri brauzerda:
+`index.html` faylini istalgan brauzerda ikki marta bosib ochish kifoya.
 
 ---
 
@@ -56,18 +51,9 @@ Hech qanday qo'shimcha o'rnatishlarsiz `index.html` yoki `speakline_english_spea
 
 ```
 Malika-English/
-├── index.html                               # Asosiy ilova fayli (GitHub Pages uchun)
-├── speakline_english_speaking_practice.html # To'liq ilova kodi (HTML/CSS/JS modullar)
-├── server.js                                # Node.js local HTTP server
-├── package.json                             # Loyiha konfiguratsiyasi
-└── README.md                                # Loyiha qo'llanmasi
+├── index.html                               # Asosiy toza minimalist veb-ilova
+├── speakline_english_speaking_practice.html # Sinxron nusxa
+├── server.js                                # Node.js local server (Port 3000)
+├── package.json                             # Loyiha ma'lumotlari
+└── README.md                                # Qo'llanma
 ```
-
----
-
-## 🛠 Texnologiyalar
-
-- **HTML5 & CSS3** (CSS Custom Properties, Flexbox, Grid, Glassmorphism)
-- **JavaScript (ES6+)** (Web Speech API / SpeechSynthesis, MediaStream Recording API, Web Audio API, LocalStorage)
-- **Node.js** (Oddiy zero-dependency HTTP server)
-- **Google Fonts** (Plus Jakarta Sans, Inter, Source Serif 4)

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const MAIN_FILE = path.join(__dirname, 'speakline_english_speaking_practice.html');
+const MAIN_FILE = path.join(__dirname, 'index.html');
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
