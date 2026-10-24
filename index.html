@@ -109,6 +109,10 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     /* Ambient Warm Gradients (Matching the soft mockups in the screenshot) */
@@ -137,7 +141,7 @@
     .app-shell {
       position: relative;
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
       min-height: 100dvh;
       margin: 0 auto;
       background-color: #FFFFFF;
@@ -146,7 +150,15 @@
       box-shadow: 0 16px 50px rgba(0, 0, 0, 0.06), 0 2px 10px rgba(0, 0, 0, 0.02);
       border-left: 1px solid rgba(230, 235, 242, 0.6);
       border-right: 1px solid rgba(230, 235, 242, 0.6);
+      transition: max-width 300ms ease;
       z-index: 1;
+    }
+
+    /* Expand smoothly to 680px during reading mode for 4-word distraction-free teleprompter */
+    .app-shell:has(#screen-reading.is-visible),
+    .app-shell:has(#screen-reading.is-active),
+    .app-shell.is-reading-mode {
+      max-width: 680px;
     }
 
     @media (max-width: 480px) {
@@ -1027,12 +1039,31 @@
     /* ==========================================================================
        Screen 4: Reading Mode (4-Word Distraction-Free Teleprompter)
        ========================================================================== */
+    #screen-reading {
+      padding-bottom: 0;
+      background-color: #FAFAF8;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      position: relative;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #screen-reading.is-visible {
+      display: flex;
+    }
+
     .reading-viewport {
       position: relative;
       width: 100%;
       height: 100dvh;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
       overflow: hidden;
       background: #FAFAF8;
     }
@@ -1072,7 +1103,8 @@
       z-index: 25;
     }
 
-    .reading-progress-fill {
+    .reading-progress-fill,
+    .reading-progress-bar {
       height: 100%;
       width: 0%;
       background: var(--primary-orange-gradient);
@@ -1098,60 +1130,233 @@
       animation: count-pop 0.3s ease;
     }
 
-    .reading-scroll-track {
-      flex: 1;
-      width: 100%;
-      overflow-y: scroll;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      position: relative;
-      padding: 0 24px;
+    /* Fixed Guide Box at 40% Viewport Height */
+    .reading-guide-line {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 32px);
+      max-width: 580px;
+      height: 76px;
+      border-top: 1.5px dashed rgba(255, 107, 0, 0.35);
+      border-bottom: 1.5px dashed rgba(255, 107, 0, 0.35);
+      border-radius: 20px;
+      background: rgba(255, 107, 0, 0.03);
+      pointer-events: none;
+      z-index: 4;
     }
 
-    .reading-scroll-track::-webkit-scrollbar {
+    .reading-guide-markers {
       display: none;
     }
 
-    .teleprompter-text {
+    /* Scrolling Container (Zero Native Scrollbar Offset) */
+    .reading-scroll-track {
       width: 100%;
-      max-width: 380px;
+      max-width: 620px;
+      margin: 0 auto;
+      overflow: visible;
+      position: relative;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      will-change: transform;
+    }
+
+    /* The Centered Reading Text Container */
+    .reading-text-body {
+      width: 100%;
+      max-width: 580px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
       text-align: center;
+      position: relative;
+      z-index: 10;
     }
 
+    /* Reading Line (4 words per line, centered) */
     .reading-line {
-      font-family: var(--font-serif);
-      font-size: 1.5625rem;
-      line-height: 1.5;
-      color: var(--text-passed);
-      transition: color 180ms ease, transform 180ms ease;
+      width: auto;
+      min-width: 280px;
+      max-width: 95%;
+      margin: 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 12px;
+      font-family: var(--font-main), var(--font-sans);
+      font-size: clamp(1.35rem, 4vw, 1.7rem);
+      line-height: 1.35;
+      color: #94A3B8;
+      opacity: 0.35;
+      filter: blur(0.5px);
+      transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      border-radius: 18px;
+      padding: 10px 22px;
+      border: 2px solid transparent;
+      user-select: none;
     }
 
+    /* ACTIVE READING LINE — CRYSTAL CLEAR & TINNIQ (100% CONTRAST & ZERO BLUR) */
     .reading-line.is-active {
-      color: var(--text-main);
-      font-weight: 600;
-      transform: scale(1.04);
+      color: #0F172A !important;
+      opacity: 1 !important;
+      filter: none !important;
+      font-weight: 800 !important;
+      font-size: clamp(1.85rem, 5.2vw, 2.35rem) !important;
+      transform: scale(1.08) !important;
+      background: #FFFFFF !important;
+      border: 2px solid #FF6B00 !important;
+      box-shadow: 0 10px 30px rgba(255, 107, 0, 0.18), 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+      z-index: 15;
     }
 
-    .reading-bottom-bar {
+    .reading-line.is-active .reading-word {
+      color: #0F172A !important;
+      font-weight: 800 !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
+
+    .reading-line.is-active .reading-word.is-passed {
+      color: #EA580C !important;
+      font-weight: 800 !important;
+      opacity: 0.85 !important;
+      filter: none !important;
+    }
+
+    .reading-line.is-passed {
+      color: #94A3B8;
+      opacity: 0.22;
+      font-weight: 400;
+      transform: scale(0.95);
+      filter: blur(0.8px);
+    }
+
+    .reading-line.is-upcoming {
+      color: #64748B;
+      opacity: 0.38;
+      font-weight: 500;
+      transform: scale(0.98);
+      filter: blur(0.4px);
+    }
+
+    .reading-word {
+      display: inline-block;
+      transition: color 150ms ease;
+    }
+
+    /* Minimal Bottom Controls Bar */
+    .reading-controls-bar {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 18px 20px 24px 20px;
+      padding: 16px 20px 24px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      z-index: 20;
-      background: linear-gradient(0deg, rgba(250, 250, 248, 0.95) 0%, rgba(250, 250, 248, 0) 100%);
+      z-index: 40;
+      background: linear-gradient(180deg, rgba(250, 250, 248, 0) 0%, rgba(250, 250, 248, 0.94) 40%, rgba(250, 250, 248, 1) 100%);
     }
 
-    .reading-pause-btn {
-      min-width: 140px;
+    .reading-controls-inner {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .reading-controls-speed-wrap {
+      width: 100%;
+    }
+
+    .speed-control-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .speed-label {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .speed-val-display {
+      color: var(--primary-orange);
+      font-weight: 800;
+    }
+
+    .speed-slider {
+      appearance: none;
+      -webkit-appearance: none;
+      flex: 1;
+      height: 6px;
+      border-radius: var(--radius-pill);
+      background: #E2E8F0;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .speed-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary-orange-gradient);
+      box-shadow: 0 2px 8px rgba(255, 107, 0, 0.4);
+      cursor: pointer;
+    }
+
+    .reading-controls-actions-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      flex: 1;
+      min-width: 90px;
+      min-height: 40px;
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      border-radius: var(--radius-pill);
+    }
+
+    #btn-reading-pause {
+      background: var(--primary-orange-gradient);
+      color: #FFFFFF;
+      border: none;
+      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.35);
+    }
+
+    .mic-state-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      padding: 6px 12px;
       border-radius: var(--radius-pill);
     }
 
@@ -2910,6 +3115,8 @@
         this.currentWpm = 140;
         this.pixelsPerWord = 12.5;
 
+        this.lineEls = [];
+        this.lineOffsets = [];
         this.wordSpans = [];
         this.wordOffsets = [];
         this.totalScrollDistance = 0;
@@ -2936,6 +3143,8 @@
       prepare(text, speed) {
         this.setSpeed(speed || 140);
         this.textContainerEl.innerHTML = "";
+        this.lineEls = [];
+        this.lineOffsets = [];
         this.wordSpans = [];
         this.wordOffsets = [];
 
@@ -2946,7 +3155,7 @@
         for (let i = 0; i < tokens.length; i += wordsPerLine) {
           const lineWords = tokens.slice(i, i + wordsPerLine);
           const lineEl = document.createElement("div");
-          lineEl.className = "reading-line";
+          lineEl.className = "reading-line is-upcoming";
 
           lineWords.forEach((word, wordIdx) => {
             const span = document.createElement("span");
@@ -2960,6 +3169,7 @@
             }
           });
 
+          this.lineEls.push(lineEl);
           fragment.appendChild(lineEl);
         }
 
@@ -2984,8 +3194,9 @@
         const vh = window.innerHeight || document.documentElement.clientHeight || 700;
         this.readingLineY = vh * 0.40;
 
-        const topSpace = Math.round(vh * 0.46);
-        const bottomSpace = Math.round(vh * 0.64);
+        // Position the first line right at 40% height inside the guide line
+        const topSpace = Math.max(0, Math.round(this.readingLineY - 45));
+        const bottomSpace = Math.round(vh * 0.65);
 
         this.spacerTopEl.style.height = `${topSpace}px`;
         this.spacerBottomEl.style.height = `${bottomSpace}px`;
@@ -2999,15 +3210,13 @@
         const previousTotal = this.totalScrollDistance;
         const progressRatio = previousTotal > 0 ? this.currentOffset / previousTotal : 0;
 
-        this.totalScrollDistance = Math.max(100, (topSpace - this.readingLineY) + textHeight + Math.round(vh * 0.12));
+        this.totalScrollDistance = Math.max(100, topSpace + textHeight + Math.round(vh * 0.15));
 
         if (previousTotal > 0) {
           this.currentOffset = progressRatio * this.totalScrollDistance;
         }
 
-        this.wordOffsets = this.wordSpans.map((span) => {
-          return span.offsetTop + span.offsetHeight * 0.52;
-        });
+        this.updatePassedWords();
       }
 
       getEffectivePixelsPerSecond() {
@@ -3137,11 +3346,46 @@
       }
 
       updatePassedWords() {
-        const thresholdInTrackCoords = this.currentOffset + this.readingLineY;
+        const targetY = this.readingLineY;
+
+        // 1. Highlight the active reading line (Crystal clear & prominent at 40% viewport height)
+        if (this.lineEls && this.lineEls.length > 0) {
+          let closestIdx = 0;
+          let minDiff = Infinity;
+
+          for (let i = 0; i < this.lineEls.length; i++) {
+            const line = this.lineEls[i];
+            const rect = line.getBoundingClientRect();
+            const centerY = rect.top + rect.height * 0.5;
+            const diff = Math.abs(centerY - targetY);
+
+            if (diff < minDiff) {
+              minDiff = diff;
+              closestIdx = i;
+            }
+          }
+
+          for (let i = 0; i < this.lineEls.length; i++) {
+            const line = this.lineEls[i];
+            if (i === closestIdx) {
+              line.classList.remove("is-passed", "is-upcoming");
+              line.classList.add("is-active");
+            } else if (i < closestIdx) {
+              line.classList.remove("is-active", "is-upcoming");
+              line.classList.add("is-passed");
+            } else {
+              line.classList.remove("is-active", "is-passed");
+              line.classList.add("is-upcoming");
+            }
+          }
+        }
+
+        // 2. Update passed words
         for (let i = 0; i < this.wordSpans.length; i++) {
-          const wordCenterY = this.wordOffsets[i];
-          const passed = wordCenterY < thresholdInTrackCoords;
           const span = this.wordSpans[i];
+          const rect = span.getBoundingClientRect();
+          const passed = (rect.top + rect.height * 0.5) < targetY;
+
           if (passed && !span.classList.contains("is-passed")) {
             span.classList.add("is-passed");
           } else if (!passed && span.classList.contains("is-passed")) {
@@ -4337,6 +4581,15 @@
           nextEl.classList.add("is-visible");
           void nextEl.offsetWidth;
           nextEl.classList.add("is-active");
+        }
+
+        const appShellEl = document.querySelector(".app-shell");
+        if (appShellEl) {
+          if (targetScreen === "reading") {
+            appShellEl.classList.add("is-reading-mode");
+          } else {
+            appShellEl.classList.remove("is-reading-mode");
+          }
         }
 
         window.scrollTo(0, 0);
